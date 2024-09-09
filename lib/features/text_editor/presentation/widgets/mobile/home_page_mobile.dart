@@ -5,7 +5,7 @@ class BaseMobileContainer extends StatelessWidget {
   
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { // заготовка под заметку
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 5),
       padding: const EdgeInsets.all(10),
@@ -27,8 +27,8 @@ class BaseMobileContainer extends StatelessWidget {
   }
 }
 
-class RecentlyMobileContainer extends StatelessWidget {
-  const RecentlyMobileContainer({super.key,});
+class HistoryMobileContainer extends StatelessWidget { // заготовка под истории заметок
+  const HistoryMobileContainer({super.key,});
   
 
   @override
