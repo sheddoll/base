@@ -34,11 +34,14 @@ class SignupPage extends StatelessWidget {
                   ),
                   ),
                 TextButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                  }, 
                   child: const Text('Зарегистрироваться')
                   ),
                 TextButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                    Navigator.pushReplacementNamed(context, '/loginPage');
+                  }, 
                   child: const Text('Вход')
                   ),
                 ],

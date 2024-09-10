@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'dart:io' show Platform;
 import '../widgets/auth_widgets.dart';
 
 class LoginPage extends StatelessWidget {
@@ -34,11 +34,15 @@ class LoginPage extends StatelessWidget {
                   ),
                   ),
                 TextButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                    Navigator.pushReplacementNamed(context,  Platform.isAndroid || Platform.isIOS ? '/homePage' : '/desktopHomePage');
+                  }, 
                   child: const Text('Войти')
                   ),
                 TextButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                    Navigator.pushReplacementNamed(context,'/signupPage');
+                  }, 
                   child: const Text('Регистрация')
                   ),
                 ],

@@ -49,3 +49,35 @@ class HistoryMobileContainer extends StatelessWidget { // заготовка п�
     );
   }
 }
+
+class MobileParagraphContainer extends StatelessWidget { //Отступы
+  const MobileParagraphContainer({
+    super.key,
+    required this.child
+  });
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return  SliverToBoxAdapter(
+      child: SizedBox(
+        height: 20,
+        child: Center(
+          child: child,),
+      )
+    );
+  }
+}
+
+AppBar buildAppBar(BuildContext context) {
+  return AppBar(
+    title: const Text('Name'), // login 
+    actions: [
+      
+      IconButton(onPressed: (){
+        Navigator.pushReplacementNamed(context, '/settingsPage');
+      }, 
+      icon: const Icon(Icons.settings))
+    ],
+  );
+}

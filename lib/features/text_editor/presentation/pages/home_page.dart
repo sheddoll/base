@@ -1,4 +1,4 @@
-import 'package:base/features/text_editor/presentation/widgets/mobile/home_page_mobile.dart';
+import 'package:base/features/text_editor/presentation/widgets/mobile/mobile.dart';
 import 'package:flutter/material.dart';
     
 class HomePage extends StatelessWidget {
@@ -8,20 +8,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Name'), // login 
-        actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.settings))
-        ],
-      ),
-      body: CustomScrollView(
-        slivers: [
-          const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 20,
-              child: Center(
-                child: Text('История')),),
-            ),
+      
+      appBar: buildAppBar(context),
+      body:CustomScrollView(
+        slivers:[
+          const MobileParagraphContainer(child:Text('История')),
             SliverToBoxAdapter(
             child: SizedBox(
               height: 100,
@@ -30,26 +21,29 @@ class HomePage extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index)=> 
                   GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacementNamed(context, '/editorPage');
+                      },
                     child: HistoryMobileContainer(), 
                     )
                 ),
               ),
             ),
-          const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 20,
-            child: Center(
-              child: Text('Заметки')),),
-          ),
+          const MobileParagraphContainer(child:Text('Заметки')),
           SliverList.builder( // List для заметок
             itemCount: 15,
             itemBuilder: (context, index)=> 
             GestureDetector( 
+              onTap: (){
+                Navigator.pushReplacementNamed(context, '/editorPage');
+                },
               child: BaseMobileContainer(),
               ),
-            )
-        ],
+            ),
+        ]  
       ),
+      
+
       floatingActionButton: FloatingActionButton(
         onPressed: (){},
         child: const Icon(Icons.download),
@@ -57,3 +51,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+

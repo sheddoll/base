@@ -11,8 +11,8 @@ class BaseAuthContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      height: Platform.isAndroid || Platform.isIOS ? 250 : 500,
-      width: Platform.isAndroid || Platform.isIOS ? 300 : 600,
+      height: Platform.isAndroid || Platform.isIOS ? 250 : 300,
+      width: Platform.isAndroid || Platform.isIOS ? 300 : 400,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white70,

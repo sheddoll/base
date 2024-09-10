@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 
 class EditorPage extends StatelessWidget {
-  const EditorPage({super.key});
+  EditorPage({super.key});
+  final TextEditingController _controller = TextEditingController(text: 'Предзаполненный текст');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TileName'),
+        title: const Text('Название заметки'),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back))
+          IconButton(onPressed: (){
+            Navigator.pushReplacementNamed(context, '/homePage');
+          }, 
+          
+          icon: const Icon(Icons.arrow_back))
         ],
       ),
-      body: TextField(
-        //TODO сделать текстовый редактор для десктопа и просмотр для мобилок
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: TextField(
+          controller: _controller,
+          maxLines: null,
+          readOnly: true,
+          decoration: const InputDecoration(
+            border: InputBorder.none
+          ),
+        
+        ),
       )
 
 

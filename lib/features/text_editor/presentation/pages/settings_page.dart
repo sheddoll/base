@@ -9,10 +9,15 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Настройки'),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_back))
+          IconButton(onPressed: (){
+            Navigator.pushReplacementNamed(context, '/homePage');
+          }, icon: const Icon(Icons.arrow_back))
         ],
       ),
-      floatingActionButton: TextButton(onPressed: (){}, child: const Text('Выйти из аккаунта?')),
+      floatingActionButton: TextButton(onPressed: (){
+        Navigator.pushReplacementNamed(context, '/loginPage');
+      }, 
+      child: const Text('Выйти из аккаунта?')),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
