@@ -3,6 +3,14 @@ part of 'notes_bloc.dart';
 
 abstract class NotesEvent {}
 
-class DownloadNotesEvent {}
+class LoadNotesEvent extends NotesEvent{
 
-class SaveNotesEvent {}
+}
+
+class SaveNotesEvent extends NotesEvent{
+
+}
+
+class DeleteNotesEvent extends NotesEvent{
+  
+}

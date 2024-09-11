@@ -8,7 +8,7 @@ class NoteEntity extends HiveObject{
   @HiveField(0)
   final String  title;
   @HiveField(1)
-  final String  description;
+  String  description;
 
   NoteEntity({required this.title, required this.description});
 }
