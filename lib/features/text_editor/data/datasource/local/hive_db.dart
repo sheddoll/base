@@ -1,0 +1,6 @@
+
+class HiveDatabase {
+  
+  void save
+
+}

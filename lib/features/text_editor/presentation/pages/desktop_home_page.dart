@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DesktopHomePage extends StatelessWidget {
    DesktopHomePage({super.key});
-  bool isHistory = false;
+   bool isHistory = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
