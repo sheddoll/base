@@ -1,4 +1,3 @@
-import 'package:base/features/text_editor/data/datasource/local/hive_db.dart';
 import 'package:base/features/text_editor/presentation/widgets/desktop/desktop.dart';
 import 'package:flutter/material.dart';
 
@@ -95,11 +94,6 @@ class DesktopHomePage extends StatelessWidget {
                                 const TextField(),
                                 TextButton(
                                   onPressed: (){
-                                    HiveDatabase hd = new HiveDatabase();
-                                    hd.saveNote('первый','йцу111у');
-                                    hd.updateNote(0,'asddd');
-                                    hd.getNotes();
-                                    hd.deleteNote(0);
                                     Navigator.of(context).pop();
                                   }, 
                                   child: const Text('Подтвердить')

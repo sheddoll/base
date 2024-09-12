@@ -1,23 +1,23 @@
-part of 'note_entity.dart';
+part of 'note_model.dart';
 
-class NoteEntityAdapter extends TypeAdapter<NoteEntity> {
+class NoteModelAdapter extends TypeAdapter<NoteModel> {
   @override
   final int typeId = 1;
 
   @override
-  NoteEntity read(BinaryReader reader) {
+  NoteModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return NoteEntity(
+    return NoteModel(
       title: fields[0] as String,
       description: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, NoteEntity obj) {
+  void write(BinaryWriter writer, NoteModel obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -32,7 +32,7 @@ class NoteEntityAdapter extends TypeAdapter<NoteEntity> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NoteEntityAdapter &&
+      other is NoteModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

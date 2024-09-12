@@ -1,7 +1,5 @@
 import 'package:hive/hive.dart';
 
-part 'note_entity.g.dart';
-
 @HiveType(typeId: 1)
 class NoteEntity extends HiveObject{
   
