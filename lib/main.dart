@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 
 
+
 main() async {
   await initializeDependencies();
   runApp(const BaseApp());

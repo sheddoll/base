@@ -1,9 +1,9 @@
-import 'package:base/features/auth/presentation/pages/login_page.dart';
-import 'package:base/features/auth/presentation/pages/signup_page.dart';
-import 'package:base/features/text_editor/presentation/pages/editor_page.dart';
-import 'package:base/features/text_editor/presentation/pages/home_page.dart';
-import 'package:base/features/text_editor/presentation/pages/desktop_home_page.dart';
-import 'package:base/features/text_editor/presentation/pages/settings_page.dart';
+import 'package:base/presentation/pages/auth/login_page.dart';
+import 'package:base/presentation/pages/auth/signup_page.dart';
+import 'package:base/presentation/pages/mobile/editor_page.dart';
+import 'package:base/presentation/pages/mobile/home_page.dart';
+import 'package:base/presentation/pages/desktop/desktop_home_page.dart';
+import 'package:base/presentation/pages/mobile/settings_page.dart';
 import 'package:flutter/material.dart';
 
 
