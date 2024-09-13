@@ -1,8 +1,8 @@
 import 'package:base/bloc/mobile/notes_bloc.dart';
-import 'package:base/presentation/widgets/mobile/app_bar.dart';
-import 'package:base/presentation/widgets/mobile/base_container.dart';
-import 'package:base/presentation/widgets/mobile/history_container.dart';
-import 'package:base/presentation/widgets/mobile/paragraph.dart';
+import 'package:base/presentation/text_editor/widgets/mobile/app_bar.dart';
+import 'package:base/presentation/text_editor/widgets/mobile/base_container.dart';
+import 'package:base/presentation/text_editor/widgets/mobile/history_container.dart';
+import 'package:base/presentation/text_editor/widgets/mobile/paragraph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

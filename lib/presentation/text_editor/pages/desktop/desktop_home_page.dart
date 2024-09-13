@@ -1,5 +1,5 @@
 import 'package:base/bloc/desktop/desktop_notes_bloc.dart';
-import 'package:base/presentation/widgets/desktop/desktop.dart';
+import 'package:base/presentation/text_editor/widgets/desktop/desktop.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

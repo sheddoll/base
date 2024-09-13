@@ -1,18 +1,18 @@
+import 'dart:io';
+import 'package:base/presentation/auth/base_auth_widget.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-import '../../widgets/base_auth_widget.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+       body: Stack(
         children: [
           
           Platform.isAndroid || Platform.isIOS ?  AppBar(
-            title: const Text('LogIn'),
+            title: const Text('SignUp'),
             centerTitle: true,
             
           ) 
@@ -35,15 +35,14 @@ class LoginPage extends StatelessWidget {
                   ),
                 TextButton(
                   onPressed: (){
-                    Navigator.pushReplacementNamed(context,  Platform.isAndroid || Platform.isIOS ? '/homePage' : '/desktopHomePage');
                   }, 
-                  child: const Text('Войти')
+                  child: const Text('Зарегистрироваться')
                   ),
                 TextButton(
                   onPressed: (){
-                    Navigator.pushReplacementNamed(context,'/signupPage');
+                    Navigator.pushReplacementNamed(context, '/loginPage');
                   }, 
-                  child: const Text('Регистрация')
+                  child: const Text('Вход')
                   ),
                 ],
               ),
@@ -54,4 +53,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
