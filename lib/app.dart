@@ -13,7 +13,7 @@ class BaseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<DesktopNotesBloc>(
-      create: (_)=> sl()..add(DesktopGetNotesEvent()),
+      create: (context)=> sl()..add(DesktopGetNotesEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme(),

@@ -3,8 +3,9 @@ part of 'desktop_notes_bloc.dart';
 abstract class DesktopNotesEvent {
   final NoteModel ? note;
   final int ? index;
+  final String ? description;
 
-  const DesktopNotesEvent({this.note, this.index});
+  const DesktopNotesEvent({this.description,this.note, this.index});
 
 }
 
@@ -28,6 +29,12 @@ class DeleteNoteEvent extends DesktopNotesEvent{
 
 class UpdateNoteEvent extends DesktopNotesEvent{
 
-  UpdateNoteEvent(NoteModel note) : super(note: note);
+  UpdateNoteEvent(int index, String description):super(index: index ,description: description);
   
+}
+
+class UpdateTextEvent extends DesktopNotesEvent {
+  final String newText;
+
+  UpdateTextEvent(this.newText);
 }

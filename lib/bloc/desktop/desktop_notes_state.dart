@@ -54,3 +54,9 @@ class DesktopNotesUpdateFailed extends DesktopNotesState {
 
   const DesktopNotesUpdateFailed();
 }
+
+class DesktopNotesTextUpdated extends DesktopNotesState {
+  final String updatedText;
+
+  DesktopNotesTextUpdated(this.updatedText);
+}

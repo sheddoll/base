@@ -65,7 +65,7 @@ class HiveDatabase {
       Hive.registerAdapter(NoteModelAdapter());
     }
     final box = await Hive.openBox<NoteModel>('notes_box');
-    //print('сохраненные' + box.values.toString()); //проверить
+    //print('ээээээээ'); //проверить
     if(box.isEmpty){
       return;
     }

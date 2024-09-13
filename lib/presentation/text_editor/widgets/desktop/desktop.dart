@@ -1,8 +1,10 @@
+import 'package:base/data/models/note_model.dart';
 import 'package:flutter/material.dart';
 
 class BaseDesktopContainer extends StatelessWidget {
-  const BaseDesktopContainer({super.key,});
-  
+  final NoteModel note;
+  const BaseDesktopContainer({super.key, required this.note});
+
 
   @override
   Widget build(BuildContext context) { // заготовка под заметку
@@ -16,10 +18,10 @@ class BaseDesktopContainer extends StatelessWidget {
         color: Colors.white70,
       ),
 
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Название заметки'),
+          Text(note.title,softWrap: false,overflow: TextOverflow.ellipsis, maxLines: 1,),
           Icon(Icons.remove_red_eye)
         ],
       )

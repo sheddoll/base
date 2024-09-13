@@ -30,7 +30,6 @@ class NotesRepositoryImpl implements NotesRepository{
 
   @override
   Future<void> updateNote(int index, String newDescription){
-
     return _database.updateNote(index, newDescription);
 
   }
