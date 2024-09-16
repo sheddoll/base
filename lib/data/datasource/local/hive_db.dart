@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 
 class HiveDatabase {
   
-  Future<void> saveNote(String title, String description) async{
+  Future<void> saveNoteLocal(String title, String description) async{
     try{
     if(title.isEmpty){ return;}
     if(!Hive.isAdapterRegistered(1)){
@@ -22,7 +22,7 @@ class HiveDatabase {
   }
 
 
-  Future<void> deleteNote(int index)async{
+  Future<void> deleteNoteLocal(int index)async{
      try{
       if(!Hive.isAdapterRegistered(1)){
         Hive.registerAdapter(NoteModelAdapter());
@@ -38,7 +38,7 @@ class HiveDatabase {
     }
   }
 
-  Future<List<NoteModel>> getNotes()async{
+  Future<List<NoteModel>> getNotesLocal()async{
     try{
       if(!Hive.isAdapterRegistered(1)){
         Hive.registerAdapter(NoteModelAdapter());
@@ -59,7 +59,7 @@ class HiveDatabase {
     }
     }
 
-  Future<void> updateNote(int index, String newDescription)async{
+  Future<void> updateNoteLocal(int index, String newDescription)async{
     try{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());

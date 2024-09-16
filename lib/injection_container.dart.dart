@@ -1,8 +1,8 @@
 import 'package:base/data/datasource/local/hive_db.dart';
-import 'package:base/data/repository_impl.dart';
-import 'package:base/domain/repository.dart';
+import 'package:base/data/notes_repository_impl.dart';
+import 'package:base/domain/notes_repository.dart';
 import 'package:base/bloc/mobile/notes_bloc.dart';
-import 'package:base/bloc/desktop/desktop_notes_bloc.dart';
+import 'package:base/bloc/desktop/notes_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,8 +35,9 @@ Future<void> initializeDependencies() async{
   sl.registerFactory<LocalNotesBloc>(
    ()=> (LocalNotesBloc())
   );
-   sl.registerFactory<DesktopNotesBloc>(
-   ()=> (DesktopNotesBloc(sl()))
+   sl.registerFactory<NotesBloc>(
+   ()=> (NotesBloc(sl()))
   );
 
 }
+

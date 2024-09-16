@@ -1,7 +1,7 @@
 class UserModel{
-  final String ? username;
+  final String ? email;
   final String ? password;
 
-  const UserModel({this.username, this.password});
+  const UserModel({this.email, this.password});
 
 }

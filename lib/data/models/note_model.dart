@@ -10,4 +10,12 @@ class NoteModel extends HiveObject{
   String  description;
 
   NoteModel({required this.title, required this.description});
+
+
+  factory NoteModel.fromJson(Map<String, dynamic> json){
+    return NoteModel(
+      title: json['title'],
+      description: json['description'],
+    );
+  }
 }

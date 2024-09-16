@@ -1,4 +1,4 @@
-import 'package:base/bloc/mobile/notes_bloc.dart';
+import 'package:base/bloc/desktop/notes_bloc.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/app_bar.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/base_container.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/history_container.dart';
@@ -14,9 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      body: BlocBuilder<LocalNotesBloc, LocalNotesState>(
-        builder: (context, state) {
-          return CustomScrollView(
+      body: CustomScrollView(
             slivers: [
               const MobileParagraphContainer(child: Text('История')),
               SliverToBoxAdapter(
@@ -35,18 +33,18 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const MobileParagraphContainer(child: Text('Заметки')),
-              BlocBuilder<LocalNotesBloc, LocalNotesState>(
+              BlocBuilder<NotesBloc, NotesState>(
                 builder: (context, state) {
-                  if (state is LocalNotesLoading) {
+                  if (state is NotesLoading) {
                     return const SliverToBoxAdapter(
                       child: Center(child: CupertinoActivityIndicator()),
                     );
-                  } else if (state is LocalNotesDone) {
+                  } else if (state is NotesLoadingDone) {
                     return SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) => GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacementNamed(context, '/editorPage');
+                            Navigator.pushReplacementNamed(context, '/editorPage', arguments: state.notes![index],);
                           },
                           child: baseMobileContainer(context, state.notes![index]),
                         ),
@@ -61,9 +59,7 @@ class HomePage extends StatelessWidget {
                 },
               ),
             ],
-          );
-        },
-      ),
+          ),  
       floatingActionButton: FloatingActionButton(
         onPressed: () {
         },

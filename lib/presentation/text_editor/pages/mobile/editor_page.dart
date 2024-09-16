@@ -1,14 +1,18 @@
+import 'package:base/data/models/note_model.dart';
 import 'package:flutter/material.dart';
 
 class EditorPage extends StatelessWidget {
-  EditorPage({super.key});
-  final TextEditingController _controller = TextEditingController(text: 'Предзаполненный текст');
+  const EditorPage({super.key});
+  
+ 
 
   @override
   Widget build(BuildContext context) {
+    final NoteModel model= ModalRoute.of(context)!.settings.arguments as NoteModel;
+    final TextEditingController _controller = TextEditingController(text: model.description);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Название заметки'),
+        title: Text(model.title),
         actions: [
           IconButton(onPressed: (){
             Navigator.pushReplacementNamed(context, '/homePage');
@@ -18,7 +22,7 @@ class EditorPage extends StatelessWidget {
         ],
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: TextField(
           controller: _controller,
           maxLines: null,

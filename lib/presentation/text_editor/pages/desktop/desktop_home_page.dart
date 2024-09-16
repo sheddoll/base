@@ -1,4 +1,6 @@
-import 'package:base/bloc/desktop/desktop_notes_bloc.dart';
+import 'dart:collection';
+
+import 'package:base/bloc/desktop/notes_bloc.dart';
 import 'package:base/data/models/note_model.dart';
 import 'package:base/presentation/text_editor/widgets/desktop/desktop.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DesktopHomePage extends StatelessWidget {
   
    DesktopHomePage({super.key});
-   bool isHistory = false;
-   TextEditingController _descriptionController = TextEditingController(text: '');
-   TextEditingController _titleController = TextEditingController(text: '');
-   TextEditingController _indexController = TextEditingController();
+   
+   Queue<NoteModel> history = Queue<NoteModel>();
+   final TextEditingController _descriptionController = TextEditingController(text: '');
+   final TextEditingController _titleController = TextEditingController(text: '');
+   final TextEditingController _indexController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,65 +37,113 @@ class DesktopHomePage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(right: 30),
                       child: IconButton(
-                        onPressed: (){}, 
-                        icon: const Icon(Icons.download)),
-                    ),
-                    IconButton(
                       onPressed: (){
                         _descriptionController.text = '';
                         _titleController.text = '';
                       }, 
                       icon: const Icon(Icons.add)),
-                    TextButton(
-                        onPressed: (){
-                          isHistory = !isHistory;
-                        }, 
-                        child: Text( isHistory ? 'Заметки' : 'История')),
+                    ),
+                    ToggleButtons(
+                      selectedColor: Colors.purpleAccent,
+                      disabledColor: Colors.grey,
+                      borderColor: Colors.transparent,
+                      isSelected: [true,false],
+                      children: [
+                        TextButton(
+                          onPressed:(){
+                            context.read<NotesBloc>().add(GetNotesEvent());
+                            
+                          } , 
+                          child: const Text('Заметки')),
+                        TextButton(
+                          onPressed: (){
+                            // context.read<DesktopNotesBloc>().add(DesktopHistoryEvent(history));
+                          },
+                          child: const Text('История'))
+                      ]
                     
+                      )                                        
                   ],
               ),
               ),
             ),
             
-            BlocBuilder<DesktopNotesBloc,DesktopNotesState>(
+            BlocBuilder<NotesBloc,NotesState>(
               builder: (context, state) {
-                if(state is DesktopNotesLoading){
+                switch (state){
+                  case NotesInitial():
+                  return SliverToBoxAdapter(
+                    child: SizedBox(
+                      child: Container(
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.2),
+                        child: const Text('Сохраните свою первую заметку!'),
+                      ),
+                    )
+                    );
+
+                  case NotesLoading():
                   return const SliverToBoxAdapter(child: CupertinoActivityIndicator());
-                }
-                if(state is DesktopNotesLoadingDone){
+
+                  case NotesFailed():
+                  return const SliverToBoxAdapter(child: Text('Error'));
+                  
+                  case NotesLoadingDone():
                   return SliverList.builder( // List для заметок
-                    itemCount: state.notes?.length ?? 0,
-                    itemBuilder: (context, index)=>
-                    GestureDetector(
-                       onDoubleTap: (){
-                          context.read<DesktopNotesBloc>().add(DeleteNoteEvent(index));
-                        
-                      },
-                      onTap: (){
-                        _indexController.text = index.toString();
-                        _titleController.text = state.notes![index].title;
-                        context.read<DesktopNotesBloc>().add(UpdateTextEvent(state.notes?[index].description ?? ''));
-                        context.read<DesktopNotesBloc>().add(DesktopGetNotesEvent());
-                      },
-                      child: BaseDesktopContainer(note: state.notes![index],),
-                    ),
-                  );
-                }
-                if(state is DesktopNotesLoadingFailed){
+                      itemCount: state.notes?.length ?? 0,
+                      itemBuilder: (context, index)=>
+                      GestureDetector(
+                        onDoubleTap: (){
+                          _indexController.text = '';
+                          _titleController.text = '';
+                          _descriptionController.text = '';
+                          context.read<NotesBloc>().add(DeleteNoteEvent(index));
+                        },
+                        onTap: (){
+                          if(history.length<10){
+                            history.addFirst(state.notes![index]);
+                          }
+                          else{
+                            history.removeLast();
+                            history.addFirst(state.notes![index]);
+                          }
+                          _indexController.text = index.toString();
+                          _titleController.text = state.notes![index].title;
+                          context.read<NotesBloc>().add(UpdateTextEvent(state.notes?[index].description ?? ''));
+                        },
+                        child: BaseDesktopContainer(note: state.notes![index],),
+                      ),
+                    );
+
+                  /*case DesktopGetHistory():
+                    if(history.isEmpty){
+                      return const SliverToBoxAdapter();
+                    }
+                    else{
+                      return SliverList.builder(
+                        itemCount: history.length,
+                        itemBuilder: (context, index)=>
+                        GestureDetector(
+                          onTap:() {
+                            _indexController.text = index.toString();
+                            _titleController.text = state.notes![index].title;
+                            context.read<DesktopNotesBloc>().add(UpdateTextEvent(state.notes?[index].description ?? ''));
+                          },
+                        child: BaseDesktopContainer(note: history.elementAt(index)),
+                        )
+                      
+                      );
+                    }*/
+
+                  default: 
                   return const SliverToBoxAdapter(child: Text('Error'));
-                }
-                else{
-                  return const SliverToBoxAdapter(child: Text('Error'));
-                }
-              },
-                
-            ),
+                  }
+                }),
             ],
           ),
         ),
-        BlocListener<DesktopNotesBloc, DesktopNotesState>(
+        BlocListener<NotesBloc, NotesState>(
           listener: (context, state){
-            if(state is DesktopNotesTextUpdated){
+            if(state is NotesTextUpdated){
               _descriptionController.text = state.updatedText;
             }
           },
@@ -141,7 +192,7 @@ class DesktopHomePage extends StatelessWidget {
                                   ),
                                   TextButton(
                                     onPressed: (){
-                                      context.read<DesktopNotesBloc>().add(SaveNotesEvent(NoteModel(title:_titleController.text ,description:_descriptionController.text)));
+                                      context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(title:_titleController.text ,description:_descriptionController.text)));
                                       _titleController.text = '';
                                       Navigator.of(context).pop();
                                     }, 
@@ -154,7 +205,7 @@ class DesktopHomePage extends StatelessWidget {
                           );
                           }
                           else{
-                            context.read<DesktopNotesBloc>().add(UpdateNoteEvent(int.tryParse(_indexController.text)!,_descriptionController.text));
+                            context.read<NotesBloc>().add(UpdateNoteEvent(int.tryParse(_indexController.text)!,_descriptionController.text));
                             //debugPrint('Я работаю хз лол'+' $index'+' $description');
                           }
                       }, 

@@ -1,4 +1,4 @@
-import 'package:base/bloc/desktop/desktop_notes_bloc.dart';
+import 'package:base/bloc/desktop/notes_bloc.dart';
 import 'package:base/core/routes.dart';
 import 'package:base/core/theme.dart';
 import 'package:base/injection_container.dart.dart';
@@ -12,8 +12,8 @@ class BaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DesktopNotesBloc>(
-      create: (context)=> sl()..add(DesktopGetNotesEvent()),
+    return BlocProvider<NotesBloc>(
+      create: (context)=> sl()..add(GetNotesEvent()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme(),
