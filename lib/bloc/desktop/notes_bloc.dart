@@ -27,7 +27,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   void _onGet(GetNotesEvent event,Emitter<NotesState> emit) async {
     try{
-      final notes = await _repository.getSavedNotes();
+      final notes = await _repository.localGetSavedNotes();
     if(notes.isEmpty){
       emit(const NotesInitial());
     }
@@ -46,7 +46,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     if(event.note == null ){
     emit(const NotesFailed());
     }
-    await _repository.saveNote(event.note!.title,event.note!.description).whenComplete( () => _onGet(GetNotesEvent(), emit));
+    await _repository.localSaveNote(event.note!.title,event.note!.description).whenComplete( () => _onGet(GetNotesEvent(), emit));
     
   }
 
@@ -56,7 +56,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         emit(const NotesFailed());
       }
       else{
-        await _repository.deleteNote(event.index!).whenComplete( () => _onGet(GetNotesEvent(), emit));
+        await _repository.localDeleteNote(event.index!).whenComplete( () => _onGet(GetNotesEvent(), emit));
        
       }
     }
@@ -69,7 +69,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   void _onUpdate(UpdateNoteEvent event,Emitter<NotesState> emit) async {
     try{
     // debugPrint('Хз вроде не работаю'+' ${event.note}'+' ${event.index}');
-    await _repository.updateNote(event.index!,event.description!).whenComplete( () => _onGet(GetNotesEvent(), emit));     
+    await _repository.localUpdateNote(event.index!,event.description!).whenComplete( () => _onGet(GetNotesEvent(), emit));     
     //debugPrint('Хз вроде работаю');
     }
     catch(e){

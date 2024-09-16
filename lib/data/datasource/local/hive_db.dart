@@ -28,7 +28,6 @@ class HiveDatabase {
         Hive.registerAdapter(NoteModelAdapter());
       }
       final box = await Hive.openBox<NoteModel>('notes_box');
-      
       await box.deleteAt(index);
       //print('удаленные' + box.values.toString());//проверить
     }

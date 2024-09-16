@@ -31,11 +31,11 @@ class SupabaseDatabase {
   }
 
   // Обновление заметки
-  Future<void> updateNote(String id, String title, String description) async {
+  Future<void> updateNote(String id, String description) async {
     try{
       await supabase
         .from('notes')
-        .update({'title': title, 'description': description})
+        .update({'description': description})
         .eq('id', id);
     }
     catch(e){

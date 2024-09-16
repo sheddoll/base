@@ -1,4 +1,5 @@
 import 'package:base/data/datasource/local/hive_db.dart';
+import 'package:base/data/datasource/remote/supabase.dart';
 import 'package:base/data/notes_repository_impl.dart';
 import 'package:base/domain/notes_repository.dart';
 import 'package:base/bloc/mobile/notes_bloc.dart';
@@ -14,20 +15,20 @@ final sl = GetIt.instance;
 Future<void> initializeDependencies() async{
   
   await Hive.initFlutter();
+  await Supabase.initialize( url: supabaseUrl, anonKey: supabaseKey );
 
   Hive.registerAdapter(NoteModelAdapter());
-  
+  final SupabaseDatabase remoteDatabase = SupabaseDatabase();
   final localDatabase = await Hive.openBox<NoteModel>('notes_box');
-  final database = await Supabase.initialize( url: supabaseUrl, anonKey: supabaseKey ); //балуюсь
   //db
   sl.registerSingleton(localDatabase);
 
-  sl.registerSingleton(database);
+  sl.registerSingleton(remoteDatabase);
 
   sl.registerSingleton(HiveDatabase());
   //repo
   sl.registerSingleton<NotesRepository>(
-    NotesRepositoryImpl(sl())
+    NotesRepositoryImpl(sl(),sl())
   );
 
 
