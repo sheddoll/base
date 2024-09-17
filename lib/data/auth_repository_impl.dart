@@ -68,19 +68,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
     
   }
-
-  @override
-  Future<bool> authStatus() async{
-    try{
-      return _hiveDatabase.authStatus();
-    }
-    catch(e){
-      debugPrint(e.toString());
-      return false;
-    }
-
-    
-  }
   
 
 }

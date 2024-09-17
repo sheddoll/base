@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class HiveDatabase {
+  final box = Hive.openBox('notes');
   
   Future<void> saveNoteLocal(NoteModel note) async{
     try{
@@ -11,7 +12,15 @@ class HiveDatabase {
       Hive.registerAdapter(NoteModelAdapter());
     }
     final box = await Hive.openBox<NoteModel>('notes_box');
-    await box.putAt(note.id,note);
+    List<int> keys = box.keys.cast<int>().toList();
+    if(box.containsKey(note.id)){
+      int newKey = 0;
+      while(keys.contains(newKey)){
+        newKey++;
+      }
+      note.id = newKey;
+    }
+    await box.put(note.id,note);
     }
     catch(e){
       debugPrint(e.toString());
@@ -42,7 +51,6 @@ class HiveDatabase {
       }
 
       final box = await Hive.openBox<NoteModel>('notes_box');
-
       List<NoteModel> notes = [];
       notes.addAll(box.values);
       
@@ -56,7 +64,7 @@ class HiveDatabase {
     }
     }
 
-  Future<void> updateNoteLocal(NoteModel newNote)async{
+  Future<void> updateNoteLocal(NoteModel note)async{
     try{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());
@@ -67,8 +75,6 @@ class HiveDatabase {
       return;
     }
     else{
-    NoteModel note = box.getAt(newNote.id)!;
-    note.description = newNote.description;
     await box.putAt(note.id,note);
     }
     }

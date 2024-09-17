@@ -70,12 +70,14 @@ class DesktopHomePage extends StatelessWidget {
             
             BlocBuilder<NotesBloc,NotesState>(
               builder: (context, state) {
+
+
                 switch (state){
                   case NotesInitial():
                   return SliverToBoxAdapter(
                     child: SizedBox(
                       child: Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2.2),
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/3),
                         child: const Text('Сохраните свою первую заметку!'),
                       ),
                     )
@@ -99,16 +101,9 @@ class DesktopHomePage extends StatelessWidget {
                           context.read<NotesBloc>().add(DeleteNoteEvent(state.notes![index]));
                         },
                         onTap: (){
-                          if(history.length<10){
-                            history.addFirst(state.notes![index]);
-                          }
-                          else{
-                            history.removeLast();
-                            history.addFirst(state.notes![index]);
-                          }
                           _indexController.text = index.toString();
                           _titleController.text = state.notes![index].title;
-                          context.read<NotesBloc>().add(UpdateTextEvent(state.notes?[index].description ?? ''));
+                          _descriptionController.text = state.notes![index].description;
                         },
                         child: BaseDesktopContainer(note: state.notes![index],),
                       ),
@@ -190,18 +185,14 @@ class DesktopHomePage extends StatelessWidget {
                                   TextField(
                                     controller: _titleController,
                                   ),
-                                  BlocListener<NotesBloc, NotesState>(
-                                    listener: (context,state) => _indexController.text = (state.notes!.length+1).toString(),
-                                    child: TextButton(
-                                      onPressed: (){
-                                        
-                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: int.tryParse(_indexController.text)!,title:_titleController.text ,description:_descriptionController.text)));
+                                  TextButton(
+                                      onPressed: (){                                        
+                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text)));
                                         _titleController.text = '';
                                         Navigator.of(context).pop();
                                       }, 
                                       child: const Text('Подтвердить')
                                       ),
-                                  )
                                 ],
                               ),
                             ),

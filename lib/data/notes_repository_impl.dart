@@ -45,7 +45,6 @@ class NotesRepositoryImpl implements NotesRepository{
 
   @override
   Future<void> remoteSaveNote(NoteModel note) async {
-    print('Я помираю не в репозитории');
     return _remoteDatabase.addNote(note);
     
 

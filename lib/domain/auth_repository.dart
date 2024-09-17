@@ -17,5 +17,5 @@ abstract interface class AuthRepository {
 
   Future<void> saveUser(UserModel user);
 
-  Future<bool> authStatus();
+
 }

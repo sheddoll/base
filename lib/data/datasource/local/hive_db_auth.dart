@@ -21,21 +21,6 @@ class HiveUserDatabase{
 
   }
 
-  Future<bool> authStatus() async{
-    try{
-      final box = await Hive.openBox('user');
-      if(box.isNotEmpty){
-        return true;
-      }
-      else{
-        return false;
-      }
-    }
-    catch(e){
-      debugPrint(e.toString());
-      return false;
-    }
-  }
 
   Future<String> getUserEmail() async{
     try{

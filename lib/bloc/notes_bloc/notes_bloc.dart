@@ -54,8 +54,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     catch(e){
       debugPrint(e.toString());
     }
-    
-    
   }
 
   void _onDelete(DeleteNoteEvent event,Emitter<NotesState> emit) async {
@@ -64,8 +62,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         emit(const NotesFailed());
       }
       else{
+        await _repository.remoteDeleteNote(event.note!);
         await _repository.localDeleteNote(event.note!).whenComplete( () => _onGet(GetNotesEvent(), emit));
-        _repository.remoteDeleteNote(event.note!);
       }
     }
     catch(e){

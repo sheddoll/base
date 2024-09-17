@@ -9,7 +9,7 @@ class NoteModel extends HiveObject{
   @HiveField(1)
   String  description;
   @HiveField(2)
-  final int id;
+  int id;
 
   NoteModel({required this.title, required this.description, required this.id});
 
