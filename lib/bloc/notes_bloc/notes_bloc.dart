@@ -46,18 +46,26 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     if(event.note == null ){
     emit(const NotesFailed());
     }
-    await _repository.localSaveNote(event.note!.title,event.note!.description).whenComplete( () => _onGet(GetNotesEvent(), emit));
+    try{
+      await _repository.localSaveNote(event.note!).whenComplete( () => _onGet(GetNotesEvent(), emit));
+      _repository.remoteSaveNote(event.note!);
+      debugPrint('Я помираю не в блоке');
+    }
+    catch(e){
+      debugPrint(e.toString());
+    }
+    
     
   }
 
   void _onDelete(DeleteNoteEvent event,Emitter<NotesState> emit) async {
     try{
-      if(event.index == null){
+      if(event.note == null){
         emit(const NotesFailed());
       }
       else{
-        await _repository.localDeleteNote(event.index!).whenComplete( () => _onGet(GetNotesEvent(), emit));
-       
+        await _repository.localDeleteNote(event.note!).whenComplete( () => _onGet(GetNotesEvent(), emit));
+        _repository.remoteDeleteNote(event.note!);
       }
     }
     catch(e){
@@ -69,7 +77,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   void _onUpdate(UpdateNoteEvent event,Emitter<NotesState> emit) async {
     try{
     // debugPrint('Хз вроде не работаю'+' ${event.note}'+' ${event.index}');
-    await _repository.localUpdateNote(event.index!,event.description!).whenComplete( () => _onGet(GetNotesEvent(), emit));     
+    await _repository.localUpdateNote(event.note!).whenComplete( () => _onGet(GetNotesEvent(), emit));
+    _repository.remoteUpdateNote(event.note!);     
     //debugPrint('Хз вроде работаю');
     }
     catch(e){

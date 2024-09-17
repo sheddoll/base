@@ -9,7 +9,7 @@ class SupabaseDatabase {
   Future<List<NoteModel>> getNotes() async {
     
     try{
-      final response = await supabase.from('notes').select();
+      final response = await supabase.from('notes').select().eq('email', supabase.auth.currentUser!.email!);
       return response.map((note) => NoteModel.fromJson(note)).toList();
     }
     catch(e){
@@ -18,11 +18,17 @@ class SupabaseDatabase {
     }
   }
 
-  Future<void> addNote(String title, String description) async {
+  Future<void> addNote(NoteModel note) async {
     try{
       await supabase
         .from('notes')
-        .insert({'title': title, 'description': description});
+        .insert(
+          {
+            'id':note.id, 
+            'email' : supabase.auth.currentUser!.email,
+            'title': note.title, 
+            'description': note.description
+          });
     }
     catch(e){
       debugPrint(e.toString());
@@ -31,12 +37,13 @@ class SupabaseDatabase {
   }
 
   // Обновление заметки
-  Future<void> updateNote(String id, String description) async {
+  Future<void> updateNote(NoteModel note) async {
     try{
       await supabase
         .from('notes')
-        .update({'description': description})
-        .eq('id', id);
+        .update({'description': note.description})
+        .eq('id', note.id)
+        .eq('email', supabase.auth.currentUser!.email!);
     }
     catch(e){
       debugPrint(e.toString());
@@ -45,16 +52,19 @@ class SupabaseDatabase {
   }
 
   // Удаление заметки
-  Future<void> deleteNote(String id) async {
+  Future<void> deleteNote(NoteModel note) async {
     try{
       await supabase
         .from('notes')
         .delete()
-        .eq('id', id);
+        .eq('email',supabase.auth.currentUser!.email! )
+        .eq('id', note.id);
     }
     catch(e){
       debugPrint(e.toString());
       return;
     }
   }
+
+  
 }

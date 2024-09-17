@@ -1,6 +1,6 @@
 abstract class DataState{
   final Object ? data;
-  final Exception ? exception;
+  final String ? exception;
 
   const DataState({this.data,this.exception});
 
@@ -12,5 +12,5 @@ class DataSuccess extends DataState{
 }
 
 class DataFailed extends DataState{
-  const DataFailed(Exception exception):super(exception: exception);
+  const DataFailed(String exception):super(exception: exception);
 }

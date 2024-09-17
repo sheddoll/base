@@ -1,4 +1,4 @@
-import 'package:base/bloc/desktop/notes_bloc.dart';
+import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/core/routes.dart';
 import 'package:base/core/theme.dart';
 import 'package:base/injection_container.dart.dart';

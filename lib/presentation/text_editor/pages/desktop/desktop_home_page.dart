@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:base/bloc/desktop/notes_bloc.dart';
+import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/data/models/note_model.dart';
 import 'package:base/presentation/text_editor/widgets/desktop/desktop.dart';
 import 'package:flutter/cupertino.dart';
@@ -96,7 +96,7 @@ class DesktopHomePage extends StatelessWidget {
                           _indexController.text = '';
                           _titleController.text = '';
                           _descriptionController.text = '';
-                          context.read<NotesBloc>().add(DeleteNoteEvent(index));
+                          context.read<NotesBloc>().add(DeleteNoteEvent(state.notes![index]));
                         },
                         onTap: (){
                           if(history.length<10){
@@ -190,14 +190,18 @@ class DesktopHomePage extends StatelessWidget {
                                   TextField(
                                     controller: _titleController,
                                   ),
-                                  TextButton(
-                                    onPressed: (){
-                                      context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(title:_titleController.text ,description:_descriptionController.text)));
-                                      _titleController.text = '';
-                                      Navigator.of(context).pop();
-                                    }, 
-                                    child: const Text('Подтвердить')
-                                    )
+                                  BlocListener<NotesBloc, NotesState>(
+                                    listener: (context,state) => _indexController.text = (state.notes!.length+1).toString(),
+                                    child: TextButton(
+                                      onPressed: (){
+                                        
+                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: int.tryParse(_indexController.text)!,title:_titleController.text ,description:_descriptionController.text)));
+                                        _titleController.text = '';
+                                        Navigator.of(context).pop();
+                                      }, 
+                                      child: const Text('Подтвердить')
+                                      ),
+                                  )
                                 ],
                               ),
                             ),
@@ -205,7 +209,10 @@ class DesktopHomePage extends StatelessWidget {
                           );
                           }
                           else{
-                            context.read<NotesBloc>().add(UpdateNoteEvent(int.tryParse(_indexController.text)!,_descriptionController.text));
+                            context.read<NotesBloc>().add(UpdateNoteEvent(NoteModel(
+                              id: int.tryParse(_indexController.text)!,
+                              title: _titleController.text, 
+                              description: _descriptionController.text)));
                             //debugPrint('Я работаю хз лол'+' $index'+' $description');
                           }
                       }, 

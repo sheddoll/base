@@ -6,19 +6,19 @@ abstract interface class NotesRepository{
   //hive методы
   Future<List<NoteModel>> localGetSavedNotes();
 
-  Future<void> localSaveNote(String title, String description);
+  Future<void> localSaveNote(NoteModel note);
 
-  Future<void> localDeleteNote(int index);
+  Future<void> localDeleteNote(NoteModel note);
 
-  Future<void> localUpdateNote(int index, String newDescription);
+  Future<void> localUpdateNote(NoteModel note);
 
   //supabase методы
   Future<List<NoteModel>> remoteGetSavedNotes();
 
-  Future<void> remoteSaveNote(String title, String description);
+  Future<void> remoteSaveNote(NoteModel note);
 
-  Future<void> remoteDeleteNote(int index);
+  Future<void> remoteDeleteNote(NoteModel note);
 
-  Future<void> remoteUpdateNote(int index, String newDescription);
+  Future<void> remoteUpdateNote(NoteModel note);
 
 }

@@ -1,5 +1,5 @@
 import 'package:base/data/datasource/local/hive_db.dart';
-import 'package:base/data/datasource/remote/supabase.dart';
+import 'package:base/data/datasource/remote/supabase_db.dart';
 import 'package:base/data/models/note_model.dart';
 import 'package:base/domain/notes_repository.dart';
 
@@ -11,55 +11,56 @@ class NotesRepositoryImpl implements NotesRepository{
 
   //hive
   @override
-  Future<List<NoteModel>> localGetSavedNotes(){
+  Future<List<NoteModel>> localGetSavedNotes() async {
     
     return _localDatabase.getNotesLocal();
   }
 
   @override
-  Future<void> localSaveNote(String title, String description){
+  Future<void> localSaveNote(NoteModel note) async {
     
-    return _localDatabase.saveNoteLocal(title, description);
+    return _localDatabase.saveNoteLocal(note);
 
   }
 
   @override
-  Future<void> localDeleteNote(int index){
+  Future<void> localDeleteNote(NoteModel note) async {
 
-    return _localDatabase.deleteNoteLocal(index);
+    return _localDatabase.deleteNoteLocal(note);
 
   }
 
   @override
-  Future<void> localUpdateNote(int index, String newDescription){
-    return _localDatabase.updateNoteLocal(index, newDescription);
+  Future<void> localUpdateNote(NoteModel note) async {
+    return _localDatabase.updateNoteLocal(note);
 
   }
 
   //supabase
   @override
-  Future<List<NoteModel>> remoteGetSavedNotes(){
+  Future<List<NoteModel>> remoteGetSavedNotes() async {
     
     return _remoteDatabase.getNotes();
   }
 
   @override
-  Future<void> remoteSaveNote(String title, String description){
+  Future<void> remoteSaveNote(NoteModel note) async {
+    print('Я помираю не в репозитории');
+    return _remoteDatabase.addNote(note);
     
-    return _remoteDatabase.addNote(title, description);
 
   }
 
   @override
-  Future<void> remoteDeleteNote(int index){
+  Future<void> remoteDeleteNote(NoteModel note) async {
 
-    return _remoteDatabase.deleteNote(index.toString());
+    return _remoteDatabase.deleteNote(note);
 
   }
 
   @override
-  Future<void> remoteUpdateNote(int index, String newDescription){
-    return _remoteDatabase.updateNote(index.toString(), newDescription);
+  Future<void> remoteUpdateNote(NoteModel note) async {
+    return _remoteDatabase.updateNote(note);
 
   }
   

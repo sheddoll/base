@@ -1,4 +1,4 @@
-import 'package:base/bloc/desktop/notes_bloc.dart';
+import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/app_bar.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/base_container.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/history_container.dart';

@@ -1,9 +1,14 @@
+import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
+import 'package:base/data/auth_repository_impl.dart';
 import 'package:base/data/datasource/local/hive_db.dart';
-import 'package:base/data/datasource/remote/supabase.dart';
+import 'package:base/data/datasource/local/hive_db_auth.dart';
+import 'package:base/data/datasource/remote/supabase_auth.dart';
+import 'package:base/data/datasource/remote/supabase_db.dart';
+import 'package:base/data/models/user_model.dart';
 import 'package:base/data/notes_repository_impl.dart';
+import 'package:base/domain/auth_repository.dart';
 import 'package:base/domain/notes_repository.dart';
-import 'package:base/bloc/mobile/notes_bloc.dart';
-import 'package:base/bloc/desktop/notes_bloc.dart';
+import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -16,28 +21,37 @@ Future<void> initializeDependencies() async{
   
   await Hive.initFlutter();
   await Supabase.initialize( url: supabaseUrl, anonKey: supabaseKey );
-
+  Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(NoteModelAdapter());
   final SupabaseDatabase remoteDatabase = SupabaseDatabase();
   final localDatabase = await Hive.openBox<NoteModel>('notes_box');
+  final SupabaseAuth auth = SupabaseAuth();
+  final localAuthInfo = await Hive.openBox('user');
   //db
   sl.registerSingleton(localDatabase);
+  sl.registerSingleton(localAuthInfo);
 
   sl.registerSingleton(remoteDatabase);
+  sl.registerSingleton(auth);
 
   sl.registerSingleton(HiveDatabase());
+  sl.registerSingleton(HiveUserDatabase());
+
   //repo
   sl.registerSingleton<NotesRepository>(
     NotesRepositoryImpl(sl(),sl())
   );
+  sl.registerSingleton<AuthRepository>(
+    AuthRepositoryImpl(sl(),sl())
+  );
 
 
   //blocs
-  sl.registerFactory<LocalNotesBloc>(
-   ()=> (LocalNotesBloc())
-  );
-   sl.registerFactory<NotesBloc>(
+  sl.registerFactory<NotesBloc>(
    ()=> (NotesBloc(sl()))
+  );
+  sl.registerFactory<AuthBloc>(
+   ()=> (AuthBloc())
   );
 
 }

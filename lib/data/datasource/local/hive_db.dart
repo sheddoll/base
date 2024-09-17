@@ -1,19 +1,17 @@
-
 import 'package:base/data/models/note_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class HiveDatabase {
   
-  Future<void> saveNoteLocal(String title, String description) async{
+  Future<void> saveNoteLocal(NoteModel note) async{
     try{
-    if(title.isEmpty){ return;}
+    if(note.title.isEmpty){ return;}
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());
     }
     final box = await Hive.openBox<NoteModel>('notes_box');
-    final note = NoteModel(title: title, description: description);
-    await box.add(note);
+    await box.putAt(note.id,note);
     }
     catch(e){
       debugPrint(e.toString());
@@ -22,13 +20,13 @@ class HiveDatabase {
   }
 
 
-  Future<void> deleteNoteLocal(int index)async{
+  Future<void> deleteNoteLocal(NoteModel note)async{
      try{
       if(!Hive.isAdapterRegistered(1)){
         Hive.registerAdapter(NoteModelAdapter());
       }
       final box = await Hive.openBox<NoteModel>('notes_box');
-      await box.deleteAt(index);
+      await box.deleteAt(note.id);
       //print('удаленные' + box.values.toString());//проверить
     }
     catch(e){
@@ -58,7 +56,7 @@ class HiveDatabase {
     }
     }
 
-  Future<void> updateNoteLocal(int index, String newDescription)async{
+  Future<void> updateNoteLocal(NoteModel newNote)async{
     try{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());
@@ -69,9 +67,9 @@ class HiveDatabase {
       return;
     }
     else{
-    NoteModel note = box.getAt(index)!;
-    note.description = newDescription;
-    await box.putAt(index,note);
+    NoteModel note = box.getAt(newNote.id)!;
+    note.description = newNote.description;
+    await box.putAt(note.id,note);
     }
     }
     catch(e){
@@ -79,7 +77,8 @@ class HiveDatabase {
       return;
     }
     //print (note.description + note.title);
-    
-    
   }
+    
+  
+  
 } 
