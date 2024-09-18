@@ -51,7 +51,7 @@ Future<void> initializeDependencies() async{
    ()=> (NotesBloc(sl()))
   );
   sl.registerFactory<AuthBloc>(
-   ()=> (AuthBloc())
+   ()=> (AuthBloc(sl(),sl()))
   );
 
 }

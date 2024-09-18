@@ -21,7 +21,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<GetNotesEvent>(_onGet);
     on<UpdateNoteEvent>(_onUpdate);
     on<UpdateTextEvent>(_onUpdateText);
-    on<HistoryEvent>(_onHistory);
+    on<UpdateAllSavedNotesEvent>(_onUpdateAllSavedNotes);
+
    
   }
 
@@ -91,21 +92,16 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   }
 
-  _onHistory(HistoryEvent event, Emitter emit){
-    try{
-      if(event.history == null){
-        debugPrint(event.history.toString());
-      emit(NotesFailed);
-      }
-      else{
-      List<NoteModel> notes = event.history!.toList();
-      emit(HistoryDone(notes));
-      }
-    }
-    catch(e){
-      debugPrint(e.toString());
-      emit(NotesFailed); 
-    }
+  void _onUpdateAllSavedNotes(UpdateAllSavedNotesEvent event, Emitter<NotesState> emit) async {
+    final List<NoteModel> notes = await _repository.remoteGetSavedNotes() as List<NoteModel>;
+    await _repository.clearBox();
+    notes.forEach((note)async{
+      await _repository.localSaveNote(note);
+    });
+    emit(NotesLoadingDone(notes));
   }
+    
+  
+
 
 }

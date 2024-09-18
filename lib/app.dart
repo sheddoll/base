@@ -1,3 +1,4 @@
+import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/core/routes.dart';
 import 'package:base/core/theme.dart';
@@ -12,13 +13,18 @@ class BaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NotesBloc>(
-      create: (context)=> sl()..add(GetNotesEvent()),
+    return MultiBlocProvider(
+      providers: [
+      BlocProvider<NotesBloc>(
+        create: (context)=> sl()..add(GetNotesEvent())),
+      BlocProvider<AuthBloc>(
+        create: (context)=>sl()..add(LoggedInEvent())),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme(),
         routes: routes,
-        initialRoute: Platform.isAndroid || Platform.isIOS ? '/signupPage' : '/desktopHomePage',
+        initialRoute: '/loginPage',
       ),
     );
   }

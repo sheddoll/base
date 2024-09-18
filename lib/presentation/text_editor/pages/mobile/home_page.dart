@@ -16,22 +16,6 @@ class HomePage extends StatelessWidget {
       appBar: buildAppBar(context),
       body: CustomScrollView(
             slivers: [
-              const MobileParagraphContainer(child: Text('История')),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 100,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(context, '/editorPage');
-                      },
-                      child: const HistoryMobileContainer(),
-                    ),
-                  ),
-                ),
-              ),
               const MobileParagraphContainer(child: Text('Заметки')),
               BlocBuilder<NotesBloc, NotesState>(
                 builder: (context, state) {
@@ -62,6 +46,7 @@ class HomePage extends StatelessWidget {
           ),  
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          context.read<NotesBloc>().add(UpdateAllSavedNotesEvent());
         },
         child: const Icon(Icons.download),
       ),

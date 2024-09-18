@@ -1,5 +1,6 @@
-import 'dart:collection';
 
+
+import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/data/models/note_model.dart';
 import 'package:base/presentation/text_editor/widgets/desktop/desktop.dart';
@@ -11,7 +12,6 @@ class DesktopHomePage extends StatelessWidget {
   
    DesktopHomePage({super.key});
    
-   Queue<NoteModel> history = Queue<NoteModel>();
    final TextEditingController _descriptionController = TextEditingController(text: '');
    final TextEditingController _titleController = TextEditingController(text: '');
    final TextEditingController _indexController = TextEditingController();
@@ -38,6 +38,7 @@ class DesktopHomePage extends StatelessWidget {
                       margin: const EdgeInsets.only(right: 30),
                       child: IconButton(
                       onPressed: (){
+                        _indexController.text ='';
                         _descriptionController.text = '';
                         _titleController.text = '';
                       }, 
@@ -70,15 +71,13 @@ class DesktopHomePage extends StatelessWidget {
             
             BlocBuilder<NotesBloc,NotesState>(
               builder: (context, state) {
-
-
                 switch (state){
                   case NotesInitial():
                   return SliverToBoxAdapter(
                     child: SizedBox(
                       child: Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/3),
-                        child: const Text('Сохраните свою первую заметку!'),
+                        margin: const EdgeInsets.all(30),
+                        child: const Center(child: Text('Сохраните свою первую заметку!')),
                       ),
                     )
                     );
@@ -144,13 +143,32 @@ class DesktopHomePage extends StatelessWidget {
           },
           child: Expanded(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 120, vertical: 60),
+              margin: const EdgeInsets.only(top: 10,bottom: 60, right: 120,left: 120),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.black)
               ),
               child: Column(
-                children: [
+                children: [ 
+                  Container(
+                    decoration:const BoxDecoration(
+                      border: Border(bottom: BorderSide(color:Colors.black)),
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(20) ,
+                        topRight:Radius.circular(20) 
+                        )
+                    ),
+                    height: MediaQuery.of(context).size.height/20,
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      readOnly: true,
+                      controller: _titleController,
+                      textAlign: TextAlign.center,
+                      ),
+                  
+                  ),
                   Expanded( //Текостовое поле
                     child: Container(
                       margin: const EdgeInsets.all(30),
@@ -189,6 +207,7 @@ class DesktopHomePage extends StatelessWidget {
                                       onPressed: (){                                        
                                         context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text)));
                                         _titleController.text = '';
+                                        _descriptionController.text = '';
                                         Navigator.of(context).pop();
                                       }, 
                                       child: const Text('Подтвердить')
@@ -227,6 +246,7 @@ class DesktopHomePage extends StatelessWidget {
             ListTile(
               title: const Text('Выход', style: TextStyle(color: Colors.red),),
               onTap: () {
+                context.read<AuthBloc>().add(LogOutEvent());
                 Navigator.pushReplacementNamed(context, '/loginPage');
               },
             ),

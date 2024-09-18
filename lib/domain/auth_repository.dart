@@ -10,12 +10,12 @@ abstract interface class AuthRepository {
 
   Future<DataState> signUp({required UserModel user});
 
+  Future<DataState> logOut();
+
 
   //Hive методы
 
   Future<String> getEmail();
-
-  Future<void> saveUser(UserModel user);
 
 
 }

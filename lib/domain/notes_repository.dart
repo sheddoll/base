@@ -12,6 +12,8 @@ abstract interface class NotesRepository{
 
   Future<void> localUpdateNote(NoteModel note);
 
+  Future<void> clearBox();
+
   //supabase методы
   Future<List<NoteModel>> remoteGetSavedNotes();
 

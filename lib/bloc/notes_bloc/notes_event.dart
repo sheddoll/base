@@ -38,8 +38,6 @@ class UpdateTextEvent extends NotesEvent {
   UpdateTextEvent(this.newText);
 }
 
-class HistoryEvent extends NotesEvent{
-
- HistoryEvent(Queue<NoteModel> history):super(history: history);
-  
+class UpdateAllSavedNotesEvent extends NotesEvent{
+  UpdateAllSavedNotesEvent();
 }

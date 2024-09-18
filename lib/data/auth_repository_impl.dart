@@ -12,44 +12,45 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<DataState> logIn({required UserModel user}) async {
+      try{
+        final response = await _supabaseAuth.logInWithEmail(user.email!, user.password!);
+        return response;
+      }     
+      catch(e){
+        debugPrint(e.toString());
+        return DataFailed(e.toString());
+      }
     
-    try{
-      await _supabaseAuth.logInWithEmail(user.email!, user.password!);
-      return DataSuccess(user);
-    }
-    catch(e){
-      debugPrint(e.toString());
-      return DataFailed(e.toString());
-    }
   }
   
   @override
   Future<DataState> signUp({required UserModel user}) async {
     try{
-      if(user != null){
-      final emailRegExp = RegExp(
-          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
-        );
-      await _supabaseAuth.signUpWithEmail(user.email!, user.password!);
-      if(!(emailRegExp.hasMatch(user.email!))){
-        return const DataFailed('Некорректный email');
+        final response = await _supabaseAuth.signUpWithEmail(user.email!, user.password!);
+        return response;
+      }     
+      catch(e){
+        debugPrint(e.toString());
+        return DataFailed(e.toString());
       }
-      return DataSuccess(user.email!);
+  }
+
+  @override
+  Future<DataState> logOut() async {
+    try{
+        final response = await _supabaseAuth.logOut();
+        return response;
+      }     
+      catch(e){
+        debugPrint(e.toString());
+        return DataFailed(e.toString());
       }
-      else{
-        return const DataFailed('User null');
-      }
-    }
-    catch(e){
-      debugPrint(e.toString());
-      return DataFailed(e.toString());
-    }
   }
   
   @override
   Future<String> getEmail() async {
     try{
-      return _hiveDatabase.getUserEmail();
+      return _supabaseAuth.getEmail();
     }
     catch(e){
       return e.toString();
@@ -57,17 +58,6 @@ class AuthRepositoryImpl implements AuthRepository {
     
   }
 
-  @override
-  Future<void> saveUser(UserModel user) async {
-    try{
-      return _hiveDatabase.saveUser(user);
-    }
-    catch(e){
-      return debugPrint(e.toString());
-    }
-
-    
-  }
   
 
 }

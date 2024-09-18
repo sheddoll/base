@@ -39,10 +39,3 @@ class NotesFailed extends NotesState {
 
   const NotesFailed();
 }
-
-class GetHistory extends NotesState{
-  const GetHistory();
-}
-class HistoryDone extends NotesState{
-  const HistoryDone(List<NoteModel> notes):super(notes: notes);
-}

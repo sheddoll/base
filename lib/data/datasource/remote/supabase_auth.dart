@@ -5,14 +5,30 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseAuth {
   final SupabaseClient supabaseClient = Supabase.instance.client;
 
+  Session? get currentUserSession => supabaseClient.auth.currentSession; 
 
   Future<DataState> logInWithEmail(String email, String password)async{
     try{
       final response = await supabaseClient.auth.signInWithPassword(email: email,password: password);
-      if(response.user == null){
-        return DataFailed('user null');
+      if(response == null){
+        return const DataFailed('no connection');
       }
       //debugPrint(response.user!.email);
+      return DataSuccess(response.user! .email!);
+    }
+    catch(e){
+      debugPrint(e.toString());
+      return const DataFailed('Ошибка');
+    }
+  }
+
+  Future<DataState> signUpWithEmail(String email, String password)async{
+    try{
+      final response = await supabaseClient.auth.signUp(email: email,password: password);
+      if(response.user == null){
+        throw Exception();
+      }
+      //debugPrint(response.user!.id);
       return DataSuccess(response.user!.email!);
     }
     catch(e){
@@ -21,20 +37,26 @@ class SupabaseAuth {
     }
   }
 
-  Future<DataState> signUpWithEmail(String email, String password)async{
+  Future<DataState> logOut() async{
     try{
-      final response = await supabaseClient.auth.signUp(email: email,password: password);
-      if(response.user == null){
-        return const DataFailed('user null');
-      }
-      //debugPrint(response.user!.id);
-      return DataSuccess(response.user!.id);
+      await supabaseClient.auth.signOut();
+      return const DataSuccess('Вышел');
     }
     catch(e){
       debugPrint(e.toString());
-      return DataFailed(e.toString());
+      return const DataFailed('Ошибка');
     }
+    
 
+  }
 
+  Future<String> getEmail()async{
+    try{
+      String email = supabaseClient.auth.currentUser!.email!;
+      return email;
+    }
+    catch(e){
+      return '';
+    }
   }
 }

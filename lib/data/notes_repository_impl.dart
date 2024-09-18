@@ -36,6 +36,13 @@ class NotesRepositoryImpl implements NotesRepository{
 
   }
 
+  @override
+  Future<void> clearBox() async {
+
+    return _localDatabase.clearBox();
+    
+  }
+
   //supabase
   @override
   Future<List<NoteModel>> remoteGetSavedNotes() async {
@@ -62,6 +69,5 @@ class NotesRepositoryImpl implements NotesRepository{
     return _remoteDatabase.updateNote(note);
 
   }
-  
-  
+
 }

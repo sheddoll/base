@@ -35,7 +35,7 @@ class HiveDatabase {
         Hive.registerAdapter(NoteModelAdapter());
       }
       final box = await Hive.openBox<NoteModel>('notes_box');
-      await box.deleteAt(note.id);
+      await box.delete(note.id);
       //print('удаленные' + box.values.toString());//проверить
     }
     catch(e){
@@ -85,6 +85,19 @@ class HiveDatabase {
     //print (note.description + note.title);
   }
     
-  
+  Future<void> clearBox() async{
+    try{
+      if(!Hive.isAdapterRegistered(1)){
+      Hive.registerAdapter(NoteModelAdapter());
+    }
+    final box = Hive.box('notes');
+    box.clear();
+    }
+    catch(e){
+      debugPrint(e.toString());
+      return;
+    }
+    
+  }
   
 } 

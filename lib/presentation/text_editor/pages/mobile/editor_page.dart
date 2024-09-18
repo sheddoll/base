@@ -8,11 +8,11 @@ class EditorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NoteModel model= ModalRoute.of(context)!.settings.arguments as NoteModel;
-    final TextEditingController _controller = TextEditingController(text: model.description);
+    final NoteModel note= ModalRoute.of(context)!.settings.arguments as NoteModel;
+    final TextEditingController _controller = TextEditingController(text: note.description);
     return Scaffold(
       appBar: AppBar(
-        title: Text(model.title),
+        title: Text(note.title),
         actions: [
           IconButton(onPressed: (){
             Navigator.pushReplacementNamed(context, '/homePage');

@@ -41,7 +41,7 @@ class SupabaseDatabase {
     try{
       await supabase
         .from('notes')
-        .update({'description': note.description})
+        .update({'description': note.description, 'title':  note.title})
         .eq('id', note.id)
         .eq('email', supabase.auth.currentUser!.email!);
     }
