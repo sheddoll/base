@@ -23,4 +23,8 @@ abstract interface class NotesRepository{
 
   Future<void> remoteUpdateNote(NoteModel note);
 
+  Future<void> clearRemoteDatabase();
+  //common методы
+  Future<List<NoteModel>> updateAllNotes();
+
 }

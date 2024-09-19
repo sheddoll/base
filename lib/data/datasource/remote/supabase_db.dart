@@ -20,6 +20,9 @@ class SupabaseDatabase {
 
   Future<void> addNote(NoteModel note) async {
     try{
+      if(note.title == null || note.title == ''){
+        return;
+      }
       await supabase
         .from('notes')
         .insert(
@@ -36,7 +39,6 @@ class SupabaseDatabase {
     }
   }
 
-  // Обновление заметки
   Future<void> updateNote(NoteModel note) async {
     try{
       await supabase
@@ -51,7 +53,6 @@ class SupabaseDatabase {
     }
   }
 
-  // Удаление заметки
   Future<void> deleteNote(NoteModel note) async {
     try{
       await supabase
@@ -59,6 +60,19 @@ class SupabaseDatabase {
         .delete()
         .eq('email',supabase.auth.currentUser!.email! )
         .eq('id', note.id);
+    }
+    catch(e){
+      debugPrint(e.toString());
+      return;
+    }
+  }
+
+  Future<void> deleteAllNotes() async {
+    try{
+      await supabase
+        .from('notes')
+        .delete()
+        .eq('email',supabase.auth.currentUser!.email! );
     }
     catch(e){
       debugPrint(e.toString());

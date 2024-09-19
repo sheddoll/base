@@ -2,9 +2,8 @@ part of 'notes_bloc.dart';
 
 abstract class NotesEvent {
   final NoteModel ? note;
-  final Queue<NoteModel> ? history;
 
-  const NotesEvent({this.note, this.history,});
+  const NotesEvent({this.note,});
 
 }
 
@@ -15,20 +14,20 @@ class GetNotesEvent extends NotesEvent{
 }
 
 class SaveNotesEvent extends NotesEvent{
-
-  SaveNotesEvent(NoteModel note) :super(note: note);
+  NoteModel note;
+  SaveNotesEvent(this.note) :super(note: note);
 
 }
 
 class DeleteNoteEvent extends NotesEvent{
-
-  DeleteNoteEvent(NoteModel note) : super(note: note);
+  NoteModel note;
+  DeleteNoteEvent(this.note) : super(note: note); // поправить
   
 }
 
 class UpdateNoteEvent extends NotesEvent{
-
-  UpdateNoteEvent(NoteModel note):super(note: note);
+  NoteModel note;
+  UpdateNoteEvent(this.note):super(note: note);
   
 }
 
@@ -40,4 +39,16 @@ class UpdateTextEvent extends NotesEvent {
 
 class UpdateAllSavedNotesEvent extends NotesEvent{
   UpdateAllSavedNotesEvent();
+}
+
+//class UploadNotesEvent extends NotesEvent{
+//  UploadNotesEvent();
+//}
+
+class LocalClearNotesEvent extends NotesEvent{
+  LocalClearNotesEvent();
+}
+
+class ClearAllNotesEvent extends NotesEvent{
+  ClearAllNotesEvent();
 }

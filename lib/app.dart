@@ -4,8 +4,6 @@ import 'package:base/core/routes.dart';
 import 'package:base/core/theme.dart';
 import 'package:base/injection_container.dart.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BaseApp extends StatelessWidget {

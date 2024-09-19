@@ -1,5 +1,4 @@
 import 'package:base/data/datasource/datasource.dart';
-import 'package:base/data/datasource/local/hive_db_auth.dart';
 import 'package:base/data/datasource/remote/supabase_auth.dart';
 import 'package:base/data/models/user_model.dart';
 import 'package:base/domain/auth_repository.dart';
@@ -7,8 +6,7 @@ import 'package:flutter/material.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final SupabaseAuth _supabaseAuth;
-  final HiveUserDatabase _hiveDatabase;
-  AuthRepositoryImpl(this._supabaseAuth, this._hiveDatabase);
+  AuthRepositoryImpl(this._supabaseAuth);
 
   @override
   Future<DataState> logIn({required UserModel user}) async {

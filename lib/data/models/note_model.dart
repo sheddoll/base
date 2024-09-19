@@ -21,4 +21,13 @@ class NoteModel extends HiveObject{
       id: json['id'],
     );
   }
+
+    factory NoteModel.fromString(String note) {
+    List<String> parts = note.split(' ');
+    return NoteModel(
+      id: int.parse(parts[0]),
+      title: parts[1],
+      description: parts[2],
+    );
+  }
 }

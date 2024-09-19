@@ -30,11 +30,11 @@ class SignupPage extends StatelessWidget {
                     showDialog(
                       context: context, 
                       builder: (context) =>
-                      AlertDialog(
-                        content: Container(
+                      const AlertDialog(
+                        content: SizedBox(
                           width: 50,
                           height: 25,
-                          child: const Center(
+                          child: Center(
                             child: Text('Подтвердите email')),
                         ),
                       )
@@ -44,11 +44,11 @@ class SignupPage extends StatelessWidget {
                     showDialog(
                       context: context, 
                       builder: (context) =>
-                      AlertDialog(
-                        content: Container(
+                      const AlertDialog(
+                        content: SizedBox(
                           width: 50,
                           height: 25,
-                          child: const Center(
+                          child: Center(
                             child: Text('Ошибка регистрации')),
                         ),
                       )

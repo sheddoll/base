@@ -1,7 +1,6 @@
 import 'package:base/bloc/notes_bloc/notes_bloc.dart';
-import 'package:base/presentation/text_editor/widgets/mobile/app_bar.dart';
+import 'package:base/presentation/text_editor/widgets/mobile/appbar.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/base_container.dart';
-import 'package:base/presentation/text_editor/widgets/mobile/history_container.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/paragraph.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomePage extends StatelessWidget {
 
   const HomePage({ super.key });
-  
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),

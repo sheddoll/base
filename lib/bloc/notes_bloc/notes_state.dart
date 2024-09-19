@@ -39,3 +39,4 @@ class NotesFailed extends NotesState {
 
   const NotesFailed();
 }
+

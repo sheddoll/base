@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:base/presentation/auth/pages/login_page.dart';
 import 'package:base/presentation/auth/pages/signup_page.dart';
 import 'package:base/presentation/text_editor/pages/mobile/editor_page.dart';
@@ -8,10 +10,9 @@ import 'package:flutter/material.dart';
 
 
 Map<String,WidgetBuilder> routes = {
-  '/homePage' : (context) => const HomePage(),
+  '/homePage' : (context) => Platform.isAndroid || Platform.isIOS ? const HomePage() : DesktopHomePage(),
   '/editorPage' : (context)=> const EditorPage(),
   '/settingsPage' : (context)=> const SettingsPage(),
   '/loginPage' : (context)=> LoginPage(),
   '/signupPage' : (context)=> SignupPage(),
-  '/desktopHomePage' : (context)=>  DesktopHomePage()
 };

@@ -12,7 +12,7 @@ class HiveDatabase {
       Hive.registerAdapter(NoteModelAdapter());
     }
     final box = await Hive.openBox<NoteModel>('notes_box');
-    List<int> keys = box.keys.cast<int>().toList();
+    List<int> keys = box.keys.cast<int>().toList();  //Можно сделать проще
     if(box.containsKey(note.id)){
       int newKey = 0;
       while(keys.contains(newKey)){
@@ -54,8 +54,6 @@ class HiveDatabase {
       List<NoteModel> notes = [];
       notes.addAll(box.values);
       
-      //print('обнавленные' + box.values.toString());//проверить
-      //print('полученные' + notes.toString());//проверить
       return notes;
     }
     catch(e){
@@ -64,7 +62,7 @@ class HiveDatabase {
     }
     }
 
-  Future<void> updateNoteLocal(NoteModel note)async{
+  Future<void> updateNoteLocal(NoteModel note)async{  //Вместо войд можно возвращать bool для обратной связи
     try{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());
@@ -73,10 +71,8 @@ class HiveDatabase {
     //print('ээээээээ'); //проверить
     if(box.isEmpty){
       return;
-    }
-    else{
+    }  
     await box.putAt(note.id,note);
-    }
     }
     catch(e){
       debugPrint(e.toString());
@@ -90,8 +86,7 @@ class HiveDatabase {
       if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(NoteModelAdapter());
     }
-    final box = Hive.box('notes');
-    box.clear();
+    await Hive.deleteBoxFromDisk('notes_box');
     }
     catch(e){
       debugPrint(e.toString());

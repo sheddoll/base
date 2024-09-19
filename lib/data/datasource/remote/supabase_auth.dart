@@ -3,16 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseAuth {
-  final SupabaseClient supabaseClient = Supabase.instance.client;
-
-  Session? get currentUserSession => supabaseClient.auth.currentSession; 
+  final SupabaseClient supabaseClient = Supabase.instance.client; 
 
   Future<DataState> logInWithEmail(String email, String password)async{
     try{
       final response = await supabaseClient.auth.signInWithPassword(email: email,password: password);
-      if(response == null){
-        return const DataFailed('no connection');
-      }
       //debugPrint(response.user!.email);
       return DataSuccess(response.user! .email!);
     }

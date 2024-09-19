@@ -22,7 +22,6 @@ class BaseDesktopContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(note.title,softWrap: false,overflow: TextOverflow.ellipsis, maxLines: 1,),
-          Icon(Icons.remove_red_eye)
         ],
       )
     );

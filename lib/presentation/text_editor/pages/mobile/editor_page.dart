@@ -8,8 +8,8 @@ class EditorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NoteModel note= ModalRoute.of(context)!.settings.arguments as NoteModel;
-    final TextEditingController _controller = TextEditingController(text: note.description);
+    final NoteModel note = ModalRoute.of(context)!.settings.arguments as NoteModel;
+    final TextEditingController controller = TextEditingController(text: note.description);
     return Scaffold(
       appBar: AppBar(
         title: Text(note.title),
@@ -24,7 +24,7 @@ class EditorPage extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: TextField(
-          controller: _controller,
+          controller: controller,
           maxLines: null,
           readOnly: true,
           decoration: const InputDecoration(

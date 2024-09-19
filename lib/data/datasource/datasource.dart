@@ -13,4 +13,6 @@ class DataSuccess extends DataState{
 
 class DataFailed extends DataState{
   const DataFailed(String exception):super(exception: exception);
+
+
 }

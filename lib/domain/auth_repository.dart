@@ -12,10 +12,7 @@ abstract interface class AuthRepository {
 
   Future<DataState> logOut();
 
-
-  //Hive методы
-
-  Future<String> getEmail();
+  Future<String> getEmail(); 
 
 
 }

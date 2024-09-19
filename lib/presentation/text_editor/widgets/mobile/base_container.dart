@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 
-Widget baseMobileContainer(BuildContext context, NoteModel entity) { // заготовка под заметку
+Widget baseMobileContainer(BuildContext context, NoteModel note) { // заготовка под заметку
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 5),
     padding: const EdgeInsets.all(10),
@@ -18,8 +18,7 @@ Widget baseMobileContainer(BuildContext context, NoteModel entity) { // заго
     child:  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(entity.title),
-        Icon(Icons.remove_red_eye)
+        Text(note.title),
       ],
     )
   );

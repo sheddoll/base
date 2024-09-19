@@ -1,6 +1,6 @@
+import 'package:base/bloc/auth_bloc/bloc/auth_utils.dart';
 import 'package:base/data/models/user_model.dart';
 import 'package:base/domain/auth_repository.dart';
-import 'package:base/domain/notes_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'auth_event.dart';
@@ -8,8 +8,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _repository;
-  final NotesRepository _notesRepository;
-  AuthBloc(this._repository, this._notesRepository) : super(AuthInitial()) {
+  AuthBloc(this._repository) : super(AuthInitial()) {
     on<LogInEvent>(_onLogIn);
     on<LogOutEvent>(_onLogOut);
     on<SignUpEvent>(_onSignUp);
@@ -18,10 +17,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onLogIn(LogInEvent event, Emitter emit)async{
     emit(AuthLoading());
     try{
-      final emailRegExp = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
-      );
-      if(emailRegExp.hasMatch(event.user.email!) && event.user.password != null && event.user.password != ''){
+        if(inputChek(event.user.email!, event.user.password!)){
+          emit(AuthFailure());
+          emit(AuthInitial());
+          return;
+        }
         final status = await _repository.logIn(user: event.user);
         if(status.data == event.user.email){
           emit(LogInSuccess());
@@ -30,11 +30,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailure());
           emit(AuthInitial());
         }
-      }
-      else{
-        emit(AuthFailure());
-        emit(AuthInitial());
-      }
     }
     catch(e){
       debugPrint(e.toString());
@@ -46,9 +41,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _onLogOut(LogOutEvent event, Emitter emit) async {
     try{
-      await _repository.logOut();
-      await _notesRepository.clearBox();
       emit(AuthInitial());
+      _repository.logOut();
     }
     catch(e){
       debugPrint(e.toString());
@@ -59,10 +53,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSignUp(SignUpEvent event, Emitter emit) async {
     emit(AuthLoading());
     try{
-      final emailRegExp = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
-      );
-      if(emailRegExp.hasMatch(event.user.email!) && event.user.password != null && event.user.password != ''){
+        if(inputChek(event.user.email!, event.user.password!)){
+          emit(AuthFailure());
+          emit(AuthInitial());
+          return;
+        }
         final status = await _repository.signUp(user: event.user);
         if(status.data == event.user.email){
           emit(SignUpSuccess());
@@ -73,11 +68,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthInitial());
         }
       }
-      else{
-        emit(AuthFailure());
-        emit(AuthInitial());
-      }
-    }
     catch(e){
       debugPrint(e.toString());
       emit(AuthFailure());
@@ -90,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try{
       String email = await _repository.getEmail();
       if(email != ''){
-        emit(LogInSuccess());
+        emit(LoggedIn());
       }
       else{
         emit(AuthInitial());
@@ -98,10 +88,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     catch(e){
       debugPrint(e.toString());
+      emit(AuthInitial());
     }
 
   }
 
+  
 }
 
 

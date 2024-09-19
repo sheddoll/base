@@ -1,8 +1,11 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {}
+abstract class AuthState {
+
+}
 
 class AuthInitial extends AuthState {
+  AuthInitial();
 
 }
 
@@ -25,5 +28,10 @@ class LogOutSuccess extends AuthState {
 class SignUpSuccess extends AuthState{
   
 }
+
+class LoggedIn extends AuthState{
+
+}
+
 
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
-    title: const Text('Name'), // login 
+    title: const Text('Base'), // login 
     actions: [
       
       IconButton(onPressed: (){

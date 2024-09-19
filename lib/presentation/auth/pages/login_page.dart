@@ -1,4 +1,5 @@
 import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
+import 'package:base/bloc/notes_bloc/notes_bloc.dart';
 import 'package:base/data/models/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,18 +29,22 @@ class LoginPage extends StatelessWidget {
               child: BlocConsumer<AuthBloc,AuthState>(
                 listener: (context, state) {
                   if(state is LogInSuccess){
-                    Navigator.pushReplacementNamed(context,  Platform.isAndroid || Platform.isIOS ? '/homePage' : '/desktopHomePage');
+                    context.read<NotesBloc>().add(UpdateAllSavedNotesEvent());
+                    Navigator.pushReplacementNamed(context, '/homePage'); 
+                  }
+                  if(state is LoggedIn){
+                    Navigator.pushReplacementNamed(context, '/homePage');
                   }
                   if(state is AuthFailure){
                     showDialog(
                       context: context, 
                       builder: (context) =>
-                      AlertDialog(
-                        content: Container(
+                      const AlertDialog(
+                        content: SizedBox(
                           width: 50,
                           height: 25,
-                          child: const Center(
-                            child: Text('Ошибка входа')),
+                          child: Center(
+                            child: Text('Что-то пошло не так')),
                         ),
                       )
                     );                  
