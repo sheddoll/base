@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 part 'note_model.g.dart';
 
@@ -22,7 +23,12 @@ class NoteModel extends HiveObject{
     );
   }
 
-    factory NoteModel.fromString(String note) {
+  @override
+  String toString() {
+    return '$id $title $description';
+  }
+
+  factory NoteModel.fromString(String note) {
     List<String> parts = note.split(' ');
     return NoteModel(
       id: int.parse(parts[0]),
