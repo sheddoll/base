@@ -72,17 +72,21 @@ class NotesRepositoryImpl implements NotesRepository{
 
   //common
   @override
-  Future<List<NoteModel>> updateAllNotes() async{
+  Future<List<NoteModel>> downloadAllNotes() async{
     final List<NoteModel> notes = await _remoteDatabase.getNotes();
     await _localDatabase.clearBox();
-    notes.forEach((note)async{
-      await _localDatabase.saveNoteLocal(note);
-    });
+    await Future.wait(notes.map((note) => _localDatabase.saveNoteLocal(note)));
     return await _localDatabase.getNotesLocal();
   }
   @override
   Future<void> clearRemoteDatabase() async{
    return await _remoteDatabase.deleteAllNotes();
+  }
+  @override
+  Future<void> uploadNotes() async{
+    final List<NoteModel> notes = await _localDatabase.getNotesLocal();
+    await _remoteDatabase.deleteAllNotes();
+    await Future.wait(notes.map((note) => _remoteDatabase.addNote(note)));
   }
   
 }

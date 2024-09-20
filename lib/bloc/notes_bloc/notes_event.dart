@@ -2,9 +2,7 @@ part of 'notes_bloc.dart';
 
 abstract class NotesEvent {
   final NoteModel ? note;
-
-  const NotesEvent({this.note,});
-
+  NotesEvent({this.note});
 }
 
 class GetNotesEvent extends NotesEvent{
@@ -15,19 +13,19 @@ class GetNotesEvent extends NotesEvent{
 
 class SaveNotesEvent extends NotesEvent{
   NoteModel note;
-  SaveNotesEvent(this.note) :super(note: note);
+  SaveNotesEvent(this.note) :super(note: note );
 
 }
 
 class DeleteNoteEvent extends NotesEvent{
   NoteModel note;
-  DeleteNoteEvent(this.note) : super(note: note); // поправить
+  DeleteNoteEvent(this.note,) : super(note: note); // поправить
   
 }
 
 class UpdateNoteEvent extends NotesEvent{
   NoteModel note;
-  UpdateNoteEvent(this.note):super(note: note);
+  UpdateNoteEvent(this.note,):super(note: note);
   
 }
 
@@ -37,8 +35,8 @@ class UpdateTextEvent extends NotesEvent {
   UpdateTextEvent(this.newText);
 }
 
-class UpdateAllSavedNotesEvent extends NotesEvent{
-  UpdateAllSavedNotesEvent();
+class DownloadAllSavedNotesEvent extends NotesEvent{
+  DownloadAllSavedNotesEvent();
 }
 
 //class UploadNotesEvent extends NotesEvent{
@@ -51,4 +49,11 @@ class LocalClearNotesEvent extends NotesEvent{
 
 class ClearAllNotesEvent extends NotesEvent{
   ClearAllNotesEvent();
+}
+
+
+
+class ToggleRemoteEvent extends NotesEvent{
+  bool? isRemote;
+  ToggleRemoteEvent(this.isRemote);
 }

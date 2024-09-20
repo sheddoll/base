@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   supabase: ^2.3.0
   supabase_flutter: ^2.6.0
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:

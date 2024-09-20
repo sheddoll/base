@@ -65,49 +65,53 @@ class EditingPlace extends StatelessWidget {
                   ),
                 )
                 ),
-                  Container( //Кнопка чтоб сохранить 
-                  margin: const EdgeInsets.all(20),
-                  child: ElevatedButton(
-                    onPressed: (){
-                      if(_titleController.text.isEmpty){
-                      showDialog(
-                        context: context, 
-                        builder: (context)=>
-                        AlertDialog(
-                          title: const Text('Введите название заметки'),
-                          content: SizedBox(
-                            width: MediaQuery.of(context).size.width/5,
-                            height: MediaQuery.of(context).size.height/5,
-                            child: Column(
-                              children: [
-                                TextField(
-                                  controller: _titleController,
+                BlocBuilder<NotesBloc,NotesState>(
+                  builder: (context,state) {
+                    return Container( //Кнопка чтоб сохранить 
+                      margin: const EdgeInsets.all(20),
+                      child: ElevatedButton(
+                        onPressed: (){
+                          if(_titleController.text.isEmpty){
+                          showDialog(
+                            context: context, 
+                            builder: (context)=>
+                            AlertDialog(
+                              title: const Text('Введите название заметки'),
+                              content: SizedBox(
+                                width: MediaQuery.of(context).size.width/5,
+                                height: MediaQuery.of(context).size.height/5,
+                                child: Column(
+                                  children: [
+                                    TextField(
+                                      controller: _titleController,
+                                    ),
+                                    TextButton(
+                                      onPressed: (){                                        
+                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text)));
+                                        _titleController.clear();
+                                        _descriptionController.clear();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Подтвердить')
+                                    ),                                                                                         
+                                  ],
                                 ),
-                                TextButton(
-                                  onPressed: (){                                        
-                                    context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text)));
-                                    _titleController.clear();
-                                    _descriptionController.clear();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Подтвердить')
-                                ),                                                                                         
-                              ],
-                            ),
-                          ),
-                        )
-                        );
-                        }
-                        else{
-                          context.read<NotesBloc>().add(UpdateNoteEvent(NoteModel(
-                            id: int.tryParse(_indexController.text)!,
-                            title: _titleController.text, 
-                            description: _descriptionController.text)));
-                          //debugPrint('Я работаю хз лол'+' $index'+' $description');
-                        }
-                    }, 
-                    child: const Text('Сохранить')),
-                  ),
+                              ),
+                            )
+                            );
+                            }
+                            else{
+                              context.read<NotesBloc>().add(UpdateNoteEvent(NoteModel(
+                                id: int.tryParse(_indexController.text)!,
+                                title: _titleController.text, 
+                                description: _descriptionController.text)));
+                              //debugPrint('Я работаю хз лол'+' $index'+' $description');
+                            }
+                        }, 
+                        child: const Text('Сохранить')),
+                      );
+                  }
+                ),
                 ],
                   
               ),

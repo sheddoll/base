@@ -27,7 +27,7 @@ class DesktopHomePage extends StatelessWidget { // разбить на лево 
         EditingPlace(descriptionController: _descriptionController, titleController: _titleController, indexController: _indexController)
       ]
       ),
-      endDrawer: const DesktopDrawer(),
+      endDrawer: DesktopDrawer(),
     );
   }
 }

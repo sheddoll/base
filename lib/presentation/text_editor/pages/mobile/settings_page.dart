@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
-
+  SettingsPage({super.key});
+  bool isRemote = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListView(
         children: [
-           ListTile(
+            ListTile(
               title: const Text('Очистить данные?', style: TextStyle(color: Colors.red),),
               onTap: () => context.read<NotesBloc>().add(ClearAllNotesEvent()),
             ),

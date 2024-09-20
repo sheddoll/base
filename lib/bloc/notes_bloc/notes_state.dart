@@ -3,7 +3,6 @@ part of 'notes_bloc.dart';
 abstract class NotesState {
 
   final List<NoteModel> ? notes;
-
   const NotesState({this.notes});
 
 }
@@ -38,5 +37,9 @@ class NotesTextUpdated extends NotesState {
 class NotesFailed extends NotesState {
 
   const NotesFailed();
+}
+
+class RemoteConfigurationsChanged extends NotesState{
+  
 }
 

@@ -1,5 +1,6 @@
 import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
 import 'package:base/bloc/notes_bloc/notes_bloc.dart';
+import 'package:base/bloc/qr_bloc/qr_bloc.dart';
 import 'package:base/core/routes.dart';
 import 'package:base/core/theme.dart';
 import 'package:base/injection_container.dart.dart';
@@ -17,6 +18,8 @@ class BaseApp extends StatelessWidget {
         create: (context)=> sl()..add(GetNotesEvent())),
       BlocProvider<AuthBloc>(
         create: (context)=>sl()..add(LoggedInEvent())),
+        BlocProvider<QrBloc>(
+        create: (context)=>sl()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 Map<String,WidgetBuilder> routes = {
   '/homePage' : (context) => Platform.isAndroid || Platform.isIOS ? const HomePage() : DesktopHomePage(),
   '/editorPage' : (context)=> const EditorPage(),
-  '/settingsPage' : (context)=> const SettingsPage(),
+  '/settingsPage' : (context)=> SettingsPage(),
   '/loginPage' : (context)=> LoginPage(),
   '/signupPage' : (context)=> SignupPage(),
 };

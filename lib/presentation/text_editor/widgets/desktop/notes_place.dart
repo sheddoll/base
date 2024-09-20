@@ -57,7 +57,7 @@ class NotesPlace extends StatelessWidget {
             )
             );
     
-          case NotesLoading():
+          case NotesLoading() || RemoteConfigurationsChanged():
           return const SliverToBoxAdapter(child: CupertinoActivityIndicator());
     
           case NotesFailed():
@@ -85,8 +85,8 @@ class NotesPlace extends StatelessWidget {
                     builder: (context)=>
                     AlertDialog(
                       content: SizedBox(
-                        width: MediaQuery.of(context).size.width/5,
-                        height: MediaQuery.of(context).size.height/5,
+                        width: 300,
+                        height: 300,
                         child: Center(child: QrImageView(data: state.notes![index].toString(),))
                       ),
                     )

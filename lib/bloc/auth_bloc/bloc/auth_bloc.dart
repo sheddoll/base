@@ -17,12 +17,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onLogIn(LogInEvent event, Emitter emit)async{
     emit(AuthLoading());
     try{
-        if(inputChek(event.user.email!, event.user.password!)){
+       final status = await _repository.logIn(user: event.user);
+        if(inputChek(event.user.email, event.user.password)){
           emit(AuthFailure());
           emit(AuthInitial());
           return;
         }
-        final status = await _repository.logIn(user: event.user);
         if(status.data == event.user.email){
           emit(LogInSuccess());
         }
@@ -53,7 +53,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSignUp(SignUpEvent event, Emitter emit) async {
     emit(AuthLoading());
     try{
-        if(inputChek(event.user.email!, event.user.password!)){
+        if(inputChek(event.user.email, event.user.password)){
           emit(AuthFailure());
           emit(AuthInitial());
           return;

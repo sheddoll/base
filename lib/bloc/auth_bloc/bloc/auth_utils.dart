@@ -1,10 +1,10 @@
 
 
-bool inputChek(String email,String password){
+bool inputChek(String ? email,String ? password){
 final emailRegExp = RegExp(
   r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
   );
-  if(emailRegExp.hasMatch(email) && password != null && password != ''){
+  if(emailRegExp.hasMatch(email!) && password != null && password != ''){
     return false;
   }
   else{

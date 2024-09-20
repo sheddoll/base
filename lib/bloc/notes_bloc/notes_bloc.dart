@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:base/data/models/note_model.dart';
 import 'package:base/domain/notes_repository.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +9,7 @@ part 'notes_state.dart';
 class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   final NotesRepository _repository;
-  
+  bool isRemote = true;
 
 
   NotesBloc(this._repository) : super(const NotesInitial()) {
@@ -21,12 +19,10 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     on<GetNotesEvent>(_onGet);
     on<UpdateNoteEvent>(_onUpdate);
     on<UpdateTextEvent>(_onUpdateText);
-    on<UpdateAllSavedNotesEvent>(_onUpdateAllSavedNotes);
+    on<DownloadAllSavedNotesEvent>(_onDownloadAllSavedNotes);
     on<LocalClearNotesEvent>(_onClearNotes);
     on<ClearAllNotesEvent>(_onClearAllNotes);
-    //on<UploadNotesEvent>(_onUploadNotes);
-
-   
+    on<ToggleRemoteEvent>(_onConfigChange); 
   }
 
   void _onGet(GetNotesEvent event,Emitter<NotesState> emit) async {
@@ -50,8 +46,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     }
     try{
       await _repository.localSaveNote(event.note).whenComplete( () => _onGet(GetNotesEvent(), emit));
-      _repository.remoteSaveNote(event.note);
-      debugPrint('Я помираю не в блоке');
+      if(isRemote){
+        _repository.remoteSaveNote(event.note);
+      }
     }
     catch(e){
       debugPrint(e.toString());
@@ -65,7 +62,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       }
       else{
         await _repository.localDeleteNote(event.note).whenComplete( () => _onGet(GetNotesEvent(), emit));
-        await _repository.remoteDeleteNote(event.note);
+        if(isRemote){
+          await _repository.remoteDeleteNote(event.note);
+        }
       }
     }
     catch(e){
@@ -77,7 +76,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   void _onUpdate(UpdateNoteEvent event,Emitter<NotesState> emit) async {
     try{
     await _repository.localUpdateNote(event.note).whenComplete( () => _onGet(GetNotesEvent(), emit));
-    _repository.remoteUpdateNote(event.note);     
+    if(isRemote){
+    _repository.remoteUpdateNote(event.note);
+    }     
     }
     catch(e){
       debugPrint(e.toString());
@@ -91,9 +92,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
 
   }
 
-  void _onUpdateAllSavedNotes(UpdateAllSavedNotesEvent event, Emitter<NotesState> emit) async {
+  void _onDownloadAllSavedNotes(DownloadAllSavedNotesEvent event, Emitter<NotesState> emit) async {
     emit(const NotesLoading());
-    final notes = await _repository.updateAllNotes();
+    final notes = await _repository.downloadAllNotes();
     emit(NotesLoadingDone(notes));
   }
     
@@ -103,12 +104,22 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   } 
   
   void _onClearAllNotes(ClearAllNotesEvent event,Emitter<NotesState> emit) async {
-    await _repository.clearRemoteDatabase();
+    if(isRemote){
+      await _repository.clearRemoteDatabase();
+    }
+    
     await _repository.clearBox().whenComplete( () => _onGet(GetNotesEvent(), emit));
   } 
 
-  //void _onUploadNotes(UploadNotesEvent event,Emitter<NotesState> emit) async {
-    // _repository.uploadNotes
-  //}
-
+  void _onConfigChange(ToggleRemoteEvent event,Emitter<NotesState> emit) async {
+    emit(RemoteConfigurationsChanged());
+    isRemote = event.isRemote!;
+    if(isRemote){
+      await _repository.uploadNotes().whenComplete(() => _onGet(GetNotesEvent(), emit));
+    }
+    else{
+      _onGet(GetNotesEvent(), emit);
+    }
+    
+  }
 }

@@ -36,7 +36,6 @@ class HiveDatabase {
       }
       final box = await Hive.openBox<NoteModel>('notes_box');
       await box.delete(note.id);
-      //print('удаленные' + box.values.toString());//проверить
     }
     catch(e){
       debugPrint(e.toString());

@@ -1,3 +1,12 @@
 part of 'qr_bloc.dart';
 
-sealed class QrEvent {}
+class QrEvent {}
+
+class QRScanEvent extends QrEvent{
+
+}
+
+class SaveViaQr extends QrEvent{
+  NoteModel note;
+  SaveViaQr(this.note);
+}

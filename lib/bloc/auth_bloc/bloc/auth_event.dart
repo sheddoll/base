@@ -1,20 +1,21 @@
 part of 'auth_bloc.dart';
 
 abstract class AuthEvent {
-
+  final UserModel ? user;
+  AuthEvent({this.user});
 }
 
 
 class LogInEvent extends AuthEvent{
-  final UserModel user;
-  LogInEvent({required this.user});
+  UserModel user;
+  LogInEvent(this.user):super(user: user);
   
 }
 
 class SignUpEvent extends AuthEvent{
 
-  final UserModel user;
-  SignUpEvent({required this.user});
+  UserModel user;
+  SignUpEvent(this.user) : super(user: user);
 
 }
 

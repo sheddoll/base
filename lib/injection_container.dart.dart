@@ -1,4 +1,5 @@
 import 'package:base/bloc/auth_bloc/bloc/auth_bloc.dart';
+import 'package:base/bloc/qr_bloc/qr_bloc.dart';
 import 'package:base/data/auth_repository_impl.dart';
 import 'package:base/data/datasource/local/hive_db.dart';
 import 'package:base/data/datasource/remote/supabase_auth.dart';
@@ -46,6 +47,9 @@ Future<void> initializeDependencies() async{
   );
   sl.registerFactory<AuthBloc>(
    ()=> (AuthBloc(sl()))
+  );
+  sl.registerFactory<QrBloc>(
+   ()=> (QrBloc(sl()))
   );
 
 }

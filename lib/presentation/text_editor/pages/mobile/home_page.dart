@@ -1,4 +1,5 @@
 import 'package:base/bloc/notes_bloc/notes_bloc.dart';
+import 'package:base/bloc/qr_bloc/qr_bloc.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/appbar.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/base_container.dart';
 import 'package:base/presentation/text_editor/widgets/mobile/paragraph.dart';
@@ -44,11 +45,23 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),  
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<NotesBloc>().add(UpdateAllSavedNotesEvent());
-        },
-        child: const Icon(Icons.download),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+            onPressed: () {
+              context.read<QrBloc>().add(QRScanEvent());
+            },
+            icon: const Icon(Icons.qr_code_scanner),
+          ),
+          const SizedBox(height: 10),
+          IconButton(
+            onPressed: () {
+              context.read<NotesBloc>().add(DownloadAllSavedNotesEvent());
+            },
+            icon: const Icon(Icons.download),
+          ),
+        ],
       ),
     );
   }

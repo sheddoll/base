@@ -76,7 +76,7 @@ class SignupPage extends StatelessWidget {
                           ),
                         TextButton(
                           onPressed: (){
-                            context.read<AuthBloc>().add(SignUpEvent(user: UserModel(email: _emailController.text, password: _passwordController.text)));
+                            context.read<AuthBloc>().add(SignUpEvent(UserModel(email: _emailController.text, password: _passwordController.text)));
                           }, 
                           child: const Text('Зарегестрироваться')
                           ),

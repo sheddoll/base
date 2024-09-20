@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
               child: BlocConsumer<AuthBloc,AuthState>(
                 listener: (context, state) {
                   if(state is LogInSuccess){
-                    context.read<NotesBloc>().add(UpdateAllSavedNotesEvent());
+                    context.read<NotesBloc>().add(DownloadAllSavedNotesEvent());
                     Navigator.pushReplacementNamed(context, '/homePage'); 
                   }
                   if(state is LoggedIn){
@@ -70,7 +70,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         TextButton(
                           onPressed: (){
-                            context.read<AuthBloc>().add(LogInEvent(user: UserModel(email: _emailController.text, password: _passwordController.text)));
+                            context.read<AuthBloc>().add(LogInEvent(UserModel(email: _emailController.text, password: _passwordController.text)));
                           }, 
                           child: const Text('Войти')
                           ),

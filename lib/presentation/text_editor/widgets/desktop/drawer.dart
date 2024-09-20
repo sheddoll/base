@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DesktopDrawer extends StatelessWidget {
-  const DesktopDrawer({
+  bool isRemote = true;
+  DesktopDrawer({
     super.key,
   });
 
@@ -17,6 +18,22 @@ class DesktopDrawer extends StatelessWidget {
           const DrawerHeader(
             child: Text('Настройки'),
           ),
+          Row(
+              children: [
+                const Text('Включить удаленное хранение?'),
+                BlocBuilder<NotesBloc,NotesState>(
+                  builder: (context, state) {
+                    return Switch(
+                      thumbIcon:const WidgetStatePropertyAll(Icon(Icons.language)),
+                      value: context.read<NotesBloc>().isRemote, 
+                      onChanged:(value){
+                        context.read<NotesBloc>().add(ToggleRemoteEvent(value));
+                        },
+                      );
+                  }
+                ),
+              ],
+            ),
           ListTile(
             title: const Text('Очистить данные?', style: TextStyle(color: Colors.red),),
             onTap: () => context.read<NotesBloc>().add(ClearAllNotesEvent()),
