@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class DesktopHomePage extends StatelessWidget { // разбить на лево и право 
   
    DesktopHomePage({super.key});
-   
+   final TextEditingController _passwordController = TextEditingController(text: '');
    final TextEditingController _descriptionController = TextEditingController(text: '');
    final TextEditingController _titleController = TextEditingController(text: '');
    final TextEditingController _indexController = TextEditingController();
@@ -22,9 +22,9 @@ class DesktopHomePage extends StatelessWidget { // разбить на лево 
         children: [
           SizedBox( // Наш лист с Историей и Заметками
             width: MediaQuery.of(context).size.width/4,
-            child: NotesPlace(indexController: _indexController, descriptionController: _descriptionController, titleController: _titleController),
+            child: NotesPlace(indexController: _indexController, descriptionController: _descriptionController, titleController: _titleController, passwordController: _passwordController,),
         ),
-        EditingPlace(descriptionController: _descriptionController, titleController: _titleController, indexController: _indexController)
+        EditingPlace(descriptionController: _descriptionController, titleController: _titleController, indexController: _indexController, passwordController: _passwordController,)
       ]
       ),
       endDrawer: DesktopDrawer(),

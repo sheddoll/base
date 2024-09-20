@@ -11,12 +11,13 @@ class NotesPlace extends StatelessWidget {
     required TextEditingController indexController,
     required TextEditingController descriptionController,
     required TextEditingController titleController,
-  }) : _indexController = indexController, _descriptionController = descriptionController, _titleController = titleController;
+    required TextEditingController passwordController
+  }) : _indexController = indexController, _descriptionController = descriptionController, _titleController = titleController, _passwordController = passwordController;
 
   final TextEditingController _indexController;
   final TextEditingController _descriptionController;
   final TextEditingController _titleController;
-
+  final TextEditingController _passwordController;
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -75,11 +76,50 @@ class NotesPlace extends StatelessWidget {
                   context.read<NotesBloc>().add(DeleteNoteEvent(state.notes![index]));
                 },
                 onTap: (){
-                  _indexController.text = index.toString();
-                  _titleController.text = state.notes![index].title;
-                  _descriptionController.text = state.notes![index].description;
+                  if(state.notes![index].password == null){
+                    _indexController.text = index.toString();
+                    _titleController.text = state.notes![index].title;
+                    _descriptionController.text = state.notes![index].description;
+                  }
+                  else{
+                    showDialog(
+                      context: context, 
+                      builder: (context) =>
+                     AlertDialog(
+                      title: const Text('Введите пароль'),
+                      content: SizedBox(
+                        width: MediaQuery.of(context).size.width/5,
+                        height: MediaQuery.of(context).size.width/5,
+                        child: Column(
+                          children:[ 
+                            TextField(
+                            controller: _passwordController,
+                          ),
+                            TextButton(
+                              onPressed: (){
+                                if(_passwordController.text == state.notes![index].password){
+                                  Navigator.of(context).pop();
+                                  _indexController.text = index.toString();
+                                  _titleController.text = state.notes![index].title;
+                                  _descriptionController.text = state.notes![index].description;
+                                  _passwordController.clear();
+                                }
+                                else{
+                                  _passwordController.clear();
+                                }
+                              }, 
+                              child: const Text('Подтвердить') 
+                              )                        
+                          ]
+                        ),
+                      ),
+                     )
+                    );
+                  }
+                  
                 },
                 onLongPress: (){
+                  if(state.notes![index].password == null){                 
                   showDialog(
                     context: context, 
                     builder: (context)=>
@@ -90,7 +130,51 @@ class NotesPlace extends StatelessWidget {
                         child: Center(child: QrImageView(data: state.notes![index].toString(),))
                       ),
                     )
-                  );                                                                                            
+                  );
+                  }
+                  else{
+                    showDialog(
+                      context: context, 
+                      builder: (context) =>
+                        AlertDialog(
+                        title: const Text('Введите пароль'),
+                        content: SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Column(
+                            children:[ 
+                              TextField(
+                              controller: _passwordController,
+                            ),
+                              TextButton(
+                                onPressed: (){
+                                  if(_passwordController.text == state.notes![index].password){
+                                    _passwordController.clear();
+                                    Navigator.of(context).pop();
+                                    showDialog(
+                                      context: context, 
+                                      builder: (context)=>
+                                      AlertDialog(
+                                        content: SizedBox(
+                                          width: 300,
+                                          height: 300,
+                                          child: Center(child: QrImageView(data: state.notes![index].toString(),))
+                                        ),
+                                      )
+                                    );
+                                  }
+                                  else{
+                                    _passwordController.clear();
+                                  }
+                                }, 
+                                child: const Text('Подтвердить') 
+                                )
+                            ]
+                          ),
+                        ),
+                      )
+                    );
+                  }
                 },
                 child: BaseDesktopContainer(note: state.notes![index],),
               ),

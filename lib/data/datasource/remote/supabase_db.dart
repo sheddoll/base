@@ -30,7 +30,8 @@ class SupabaseDatabase {
             'id':note.id, 
             'email' : supabase.auth.currentUser!.email,
             'title': note.title, 
-            'description': note.description
+            'description': note.description,
+            'password' : note.password
           });
     }
     catch(e){

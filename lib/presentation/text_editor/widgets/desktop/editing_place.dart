@@ -9,9 +9,10 @@ class EditingPlace extends StatelessWidget {
     required TextEditingController descriptionController,
     required TextEditingController titleController,
     required TextEditingController indexController,
-  }) : _descriptionController = descriptionController, _titleController = titleController, _indexController = indexController;
-
+    required TextEditingController passwordController
+  }) : _descriptionController = descriptionController, _titleController = titleController, _indexController = indexController, _passwordController = passwordController;
   final TextEditingController _descriptionController;
+  final TextEditingController _passwordController;
   final TextEditingController _titleController;
   final TextEditingController _indexController;
 
@@ -76,7 +77,7 @@ class EditingPlace extends StatelessWidget {
                             context: context, 
                             builder: (context)=>
                             AlertDialog(
-                              title: const Text('Введите название заметки'),
+                              title: const Text('Введите название заметки и пароль(по желанию)'),
                               content: SizedBox(
                                 width: MediaQuery.of(context).size.width/5,
                                 height: MediaQuery.of(context).size.height/5,
@@ -85,9 +86,13 @@ class EditingPlace extends StatelessWidget {
                                     TextField(
                                       controller: _titleController,
                                     ),
+                                    TextField(
+                                      controller: _passwordController,
+                                    ),
                                     TextButton(
                                       onPressed: (){                                        
-                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text)));
+                                        context.read<NotesBloc>().add(SaveNotesEvent(NoteModel(id: 0,title:_titleController.text ,description:_descriptionController.text, password: _passwordController.text)));
+                                        _passwordController.clear();
                                         _titleController.clear();
                                         _descriptionController.clear();
                                         Navigator.of(context).pop();
@@ -101,10 +106,12 @@ class EditingPlace extends StatelessWidget {
                             );
                             }
                             else{
+                              int id = int.tryParse(_indexController.text)!;
                               context.read<NotesBloc>().add(UpdateNoteEvent(NoteModel(
-                                id: int.tryParse(_indexController.text)!,
+                                id: id,
                                 title: _titleController.text, 
-                                description: _descriptionController.text)));
+                                description: _descriptionController.text,
+                                password: state.notes![id].password)));
                               //debugPrint('Я работаю хз лол'+' $index'+' $description');
                             }
                         }, 
@@ -120,3 +127,4 @@ class EditingPlace extends StatelessWidget {
     );
   }
 }
+

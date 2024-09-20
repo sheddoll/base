@@ -5,13 +5,15 @@ part 'note_model.g.dart';
 class NoteModel extends HiveObject{
   
   @HiveField(0)
-  String  title;
+  String title;
   @HiveField(1)
-  String  description;
+  String description;
   @HiveField(2)
   int id;
+  @HiveField(3)
+  String ? password;
 
-  NoteModel({required this.title, required this.description, required this.id});
+  NoteModel({required this.title, required this.description, required this.id, this.password});
 
 
   factory NoteModel.fromJson(Map<String, dynamic> json){
@@ -19,6 +21,7 @@ class NoteModel extends HiveObject{
       title: json['title'],
       description: json['description'],
       id: json['id'],
+      password: json['password'],
     );
   }
 
